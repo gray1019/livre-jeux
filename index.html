@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Murder on the Midnight Express</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@500;700&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#d9d4c7;--dim:#8d97a3;--blood:#a31621;--gold:#d4a84b;--navy:#08111f;--box:rgba(6,12,24,.88)}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;color:var(--ink);font-family:'IM Fell English',Georgia,serif;font-size:19px;line-height:1.7;
+background:radial-gradient(ellipse at 50% 0%,#12274a 0%,#0a1630 38%,#03060d 80%) fixed;overflow-x:hidden}
+body:before,body:after{content:"";position:fixed;left:-50%;width:200%;height:40%;pointer-events:none;
+background:radial-gradient(ellipse,rgba(140,160,190,.10),transparent 65%);animation:fog 40s linear infinite}
+body:before{bottom:0}body:after{bottom:15%;animation-duration:60s;animation-direction:reverse}
+@keyframes fog{from{transform:translateX(-12%)}to{transform:translateX(12%)}}
+.top{display:flex;justify-content:flex-end;gap:8px;padding:16px 20px;position:relative;z-index:2}
+.lang button{font:700 .85rem 'Cinzel',serif;color:var(--dim);background:transparent;border:1px solid #2b3a52;padding:6px 14px;border-radius:4px;cursor:pointer}
+.lang button.on{color:#fff;border-color:var(--blood);background:rgba(163,22,33,.35)}
+main{position:relative;z-index:1;max-width:700px;margin:0 auto;padding:10px 18px 60px}
+.box{background:var(--box);border:1px solid #2a3b57;border-top:3px solid var(--blood);border-radius:6px;padding:30px 28px 28px;
+box-shadow:0 0 0 1px #000,0 20px 60px rgba(0,0,0,.8),0 0 50px rgba(163,22,33,.15)}
+.hero{text-align:center;padding:20px 0 6px}
+h1{font:700 clamp(2rem,6.5vw,3.3rem)/1.15 'Cinzel Decorative',serif;margin:10px 0 14px;color:#eee8d8;text-shadow:0 0 18px rgba(163,22,33,.7),0 2px 0 #000;letter-spacing:.03em}
+.sub{color:var(--dim);font-style:italic;margin:0 auto 26px;max-width:460px}
+h2{font:700 1.35rem 'Cinzel',serif;color:var(--gold);margin:14px 0 10px;letter-spacing:.04em}
+p{margin:0 0 14px}
+.frame{position:relative;width:100%;aspect-ratio:16/9;margin:0 0 20px;border:1px solid #2f4466;border-radius:4px;overflow:hidden;background:linear-gradient(160deg,#0d1b33,#050912);display:flex;align-items:center;justify-content:center;box-shadow:inset 0 0 40px rgba(0,0,0,.8),0 6px 24px rgba(0,0,0,.6)}
+.frame img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.frame.has:after{content:"";position:absolute;inset:0;box-shadow:inset 0 0 70px rgba(0,0,0,.75);pointer-events:none}
+.frame .hint{position:absolute;bottom:10px;left:0;right:0;text-align:center;font:500 .75rem 'Cinzel',serif;letter-spacing:.1em;color:var(--dim);opacity:.7}
+.pic{display:block;margin:0 auto;width:150px;height:90px;color:var(--gold);filter:drop-shadow(0 0 8px rgba(212,168,75,.35))}
+.pic.d{color:var(--blood);filter:drop-shadow(0 0 10px rgba(163,22,33,.7))}
+.pic.w{color:#7fcf9c}
+.opts{display:flex;flex-direction:column;gap:10px;margin-top:22px}
+.opts button,.go{font:inherit;text-align:left;color:var(--ink);background:rgba(20,34,58,.6);border:1px solid #2f4466;border-left:3px solid var(--blood);
+padding:12px 16px;border-radius:4px;cursor:pointer;transition:.18s}
+.opts button:hover,.go:hover{background:rgba(163,22,33,.28);border-color:var(--blood);transform:translateX(4px)}
+button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.go{display:inline-block;text-align:center;font:700 1rem 'Cinzel',serif;padding:14px 38px;letter-spacing:.08em}
+.tag{display:inline-block;font:700 .9rem 'Cinzel',serif;padding:3px 14px;border:1px solid;border-radius:20px;margin:6px 0}
+.tag.d{color:#ff6b73}.tag.w{color:#7fcf9c}.tag.m{color:var(--gold)}
+.end{text-align:center;font:700 1.1rem 'Cinzel',serif;letter-spacing:.3em;color:var(--dim);margin-top:20px}
+input{display:block;width:100%;max-width:340px;margin:0 auto 12px;font:inherit;font-size:1.05rem;text-align:center;color:var(--ink);background:rgba(4,9,18,.8);border:1px solid #2f4466;border-bottom:2px solid var(--blood);border-radius:4px;padding:11px 14px}
+input:focus-visible{outline:2px solid var(--gold)}
+.gen{display:flex;gap:10px;justify-content:center;margin-bottom:18px}
+.gen button,.menu button,.mb{font:500 .9rem 'Cinzel',serif;color:var(--dim);background:transparent;border:1px solid #2b3a52;padding:9px 18px;border-radius:4px;cursor:pointer;transition:.18s}
+.gen button.on{color:#fff;border-color:var(--blood);background:rgba(163,22,33,.35)}
+.gen button:hover,.menu button:hover,.mb:hover{color:#fff;border-color:var(--blood)}
+.menu{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:22px}
+.bar{margin-bottom:14px}.mb{padding:6px 12px}
+.nm{color:var(--gold);font-style:italic}.dim{color:var(--dim)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin:16px 0}
+.card{border:1px solid #2f4466;border-radius:4px;padding:12px;background:rgba(20,34,58,.5);display:flex;flex-direction:column;gap:4px;min-height:96px}
+.card b{font:500 .8rem 'Cinzel',serif;color:var(--dim)}.card em{font-size:.82rem}
+.card.d{border-color:var(--blood)}.card.d em{color:#ff6b73}.card.w{border-color:#4f9d6f}.card.w em{color:#7fcf9c}.card.m{border-color:var(--gold)}.card.m em{color:var(--gold)}
+.card.lock{opacity:.55;border-style:dashed}.card.lock span{font-size:1.3rem;letter-spacing:.3em;color:var(--dim)}
+.tag.s{color:#b48cff}.card.s{border-color:#8a63d2}.card.s em{color:#b48cff}.pic.s{color:#b48cff}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:5;background:#000;border:1px solid var(--gold);color:var(--gold);padding:10px 18px;border-radius:4px;font:500 .9rem 'Cinzel',serif;animation:in .4s ease}
+.top input{display:inline-block;width:90px;max-width:90px;margin:0;padding:0;border:0;background:transparent;accent-color:#a31621;align-self:center}
+.lang{align-items:center}
+#snow{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+#snow i{position:absolute;top:-10px;width:4px;height:4px;border-radius:50%;background:#dfe8f5;animation:fall linear infinite}
+@keyframes fall{to{transform:translate(70px,108vh)}}
+h1{animation:flick 8s infinite}
+@keyframes flick{0%,91%,100%{opacity:1}92%{opacity:.35}93%{opacity:1}95%{opacity:.55}96%{opacity:1}}
+.rail{height:52px;overflow:hidden;position:relative;margin:4px 0 16px;border-bottom:2px dashed #2b3a52}
+.rail svg{position:absolute;left:0;top:0;width:110px;height:52px;color:var(--gold);opacity:.85;animation:drive 12s linear infinite}
+@keyframes drive{from{transform:translateX(-130px)}to{transform:translateX(760px)}}
+.frame img{animation:kb 22s ease-in-out infinite alternate}
+@keyframes kb{from{transform:scale(1)}to{transform:scale(1.09)}}
+.frame.d{animation:shake .6s}
+.frame.d:before{content:"";position:absolute;inset:0;background:#a31621;opacity:0;z-index:2;animation:flash .9s}
+@keyframes shake{20%{transform:translateX(-7px)}40%{transform:translateX(7px)}60%{transform:translateX(-4px)}80%{transform:translateX(3px)}}
+@keyframes flash{0%{opacity:.55}100%{opacity:0}}
+.frame.w{animation:glow 3s ease-in-out infinite alternate}
+@keyframes glow{from{box-shadow:inset 0 0 40px rgba(0,0,0,.8),0 0 6px rgba(212,168,75,.2)}to{box-shadow:inset 0 0 40px rgba(0,0,0,.8),0 0 28px rgba(212,168,75,.55)}}
+.opts button small{color:var(--dim);font-size:.82rem}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;background:#0a1224;padding:8px;border-radius:6px;max-width:380px;margin:12px auto;touch-action:none}
+.t{aspect-ratio:1;display:flex;align-items:center;justify-content:center;border-radius:4px;font:700 1.5rem 'Cinzel',serif;color:#fff}
+.info{display:flex;justify-content:space-between;max-width:380px;margin:0 auto;color:var(--gold);font-family:'Cinzel',serif}
+.pad{display:flex;gap:8px;justify-content:center;margin:12px 0;flex-wrap:wrap}.pad .mb{padding:10px 18px;font-size:1.1rem}
+.tw{display:flex;gap:18px;justify-content:center;align-items:flex-start;flex-wrap:wrap}.tw canvas{border:1px solid #2f4466;background:#050a14;max-width:100%}
+.ti{color:var(--gold);font-family:'Cinzel',serif;display:flex;flex-direction:column;gap:8px}
+.cb{display:grid;grid-template-columns:repeat(8,1fr);max-width:440px;margin:12px auto;border:2px solid var(--blood)}
+.sq{aspect-ratio:1;border:0;padding:0;font-size:clamp(22px,7vw,40px);line-height:1;cursor:pointer}
+.sq.l{background:#33496f}.sq.d{background:#14233f}.sq.sel{outline:3px solid var(--gold);outline-offset:-3px}.sq.mv{box-shadow:inset 0 0 0 4px rgba(212,168,75,.75)}
+.wp{color:#f4ecd6;text-shadow:0 0 3px #000}.bp{color:#0a0f1a;text-shadow:0 0 2px rgba(255,255,255,.5)}
+.cm{text-align:center;color:var(--gold);font-family:'Cinzel',serif;min-height:1.7em}
+.vista{margin:2px 0 18px}.vista svg{width:100%;height:auto;display:block}
+.sc{animation:scr 30s linear infinite}.s1{animation-duration:46s}.s2{animation-duration:16s}
+@keyframes scr{to{transform:translateX(-640px)}}
+.slp{animation:sleep .22s linear infinite}@keyframes sleep{to{transform:translateX(-24px)}}
+.trn{animation:bob .32s ease-in-out infinite alternate}@keyframes bob{to{transform:translateY(1.2px)}}
+.wh{transform-box:fill-box;transform-origin:center;animation:spin .5s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
+.rod{animation:rod .5s ease-in-out infinite alternate}@keyframes rod{from{transform:translateY(-3px)}to{transform:translateY(3px)}}
+.wl{animation:wlk 3s ease-in-out infinite alternate}@keyframes wlk{from{opacity:.5}to{opacity:1}}
+.smoke circle{fill:#aeb8c8;opacity:0;transform-box:fill-box;transform-origin:center;animation:puff 3.2s ease-out infinite}
+@keyframes puff{0%{opacity:.7;transform:translate(0,0) scale(.6)}100%{opacity:0;transform:translate(-90px,-40px) scale(3.2)}}
+.beam{animation:bflick 4s infinite}@keyframes bflick{0%,93%,100%{opacity:1}95%{opacity:.5}}
+h1{animation:flick 8s infinite,gl 4s ease-in-out infinite alternate}
+@keyframes gl{from{text-shadow:0 0 12px rgba(163,22,33,.5),0 2px 0 #000}to{text-shadow:0 0 32px rgba(163,22,33,.95),0 2px 0 #000}}
+#storm{position:fixed;inset:0;pointer-events:none;z-index:3;background:#bcd0ff;opacity:0;animation:storm 17s infinite}
+@keyframes storm{0%,90%,100%{opacity:0}91%{opacity:.16}92%{opacity:0}93%{opacity:.1}95%{opacity:0}}
+.box{animation:bpulse 5s ease-in-out infinite alternate}
+@keyframes bpulse{from{box-shadow:0 0 0 1px #000,0 20px 60px rgba(0,0,0,.8),0 0 30px rgba(163,22,33,.1)}to{box-shadow:0 0 0 1px #000,0 20px 60px rgba(0,0,0,.8),0 0 60px rgba(163,22,33,.32)}}
+.lamp{position:absolute;top:-8px;right:34px;width:2px;height:40px;background:#3a4a63;transform-origin:top;animation:swing 4s ease-in-out infinite alternate;z-index:2}
+.lamp:after{content:"";position:absolute;left:-8px;top:36px;width:18px;height:24px;border-radius:4px 4px 8px 8px;background:#e0a43a;box-shadow:0 0 22px 8px rgba(224,164,58,.55);animation:lf 2.3s infinite}
+@keyframes swing{from{transform:rotate(-7deg)}to{transform:rotate(7deg)}}
+@keyframes lf{0%,100%{opacity:1}45%{opacity:.8}50%{opacity:.55}55%{opacity:.9}}
+h2{animation:trk 1s ease both}@keyframes trk{from{letter-spacing:.25em;opacity:0}to{letter-spacing:.04em;opacity:1}}
+.opts button{animation:slide .5s backwards}@keyframes slide{from{opacity:0;transform:translateX(-18px)}}
+.opts button:nth-child(2){animation-delay:.1s}.opts button:nth-child(3){animation-delay:.2s}.opts button:nth-child(4){animation-delay:.3s}
+.tag.d{animation:throb 1.4s ease-in-out infinite}@keyframes throb{50%{box-shadow:0 0 14px rgba(255,107,115,.7)}}
+.card.lock{animation:shim 3s ease-in-out infinite}@keyframes shim{50%{opacity:.8}}
+.cka{position:relative;display:flex;justify-content:center;margin:14px 0;min-height:150px}
+.ckb{width:200px;height:140px;background:radial-gradient(circle,rgba(163,22,33,.3),transparent 70%);border:1px solid #2f4466;border-radius:18px;cursor:pointer;color:var(--gold);transition:transform .08s}
+.ckb:active{transform:scale(.92)}.ckb svg{width:150px;height:90px}
+.pop{position:absolute;top:30%;pointer-events:none;color:#ffd27a;font:700 1.1rem 'Cinzel',serif;animation:rise .9s ease-out forwards}@keyframes rise{to{transform:translateY(-70px);opacity:0}}
+.gold{position:absolute;width:44px;height:44px;border-radius:50%;border:0;cursor:pointer;background:radial-gradient(circle,#ffe9a8,#d4a84b);color:#5a3b00;font-size:1.3rem;box-shadow:0 0 18px #d4a84b;animation:gp 1s ease-in-out infinite alternate}@keyframes gp{from{transform:scale(.9)}to{transform:scale(1.15)}}
+.up{display:flex;justify-content:space-between;gap:10px;width:100%;text-align:left}.up.no{opacity:.45}
+.fade{animation:in .6s ease}
+@keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<defs>
+<g id="train" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="8" y="22" width="84" height="28" rx="4"/><path d="M92 30h14l6 20H92"/><rect x="16" y="28" width="12" height="10"/><rect x="36" y="28" width="12" height="10"/><rect x="56" y="28" width="12" height="10"/><circle cx="26" cy="56" r="6"/><circle cx="52" cy="56" r="6"/><circle cx="82" cy="56" r="6"/><path d="M4 66h112" stroke-dasharray="6 4"/></g>
+<g id="desk" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10 50h100M18 50v22M102 50v22M30 50V42h30v8"/><path d="M80 50V28l14-10 6 6-12 8"/><path d="M70 14l30 30" opacity=".0"/><circle cx="48" cy="34" r="6"/></g>
+<g id="key" fill="none" stroke="currentColor" stroke-width="3"><circle cx="34" cy="38" r="16"/><circle cx="34" cy="38" r="6"/><path d="M50 38h58M92 38v14M104 38v10"/></g>
+<g id="shadow" fill="currentColor"><path d="M60 8c-12 0-18 10-18 20 0 6 2 10 4 14-14 6-24 16-26 32h80c-2-16-12-26-26-32 2-4 4-8 4-14 0-10-6-20-18-20z" opacity=".9"/><circle cx="53" cy="28" r="2.5" fill="#fff"/><circle cx="67" cy="28" r="2.5" fill="#fff"/></g>
+<g id="book" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M60 16c-10-6-30-8-44-4v54c14-4 34-2 44 4 10-6 30-8 44-4V12c-14-4-34-2-44 4zM60 16v54"/><path d="M24 26h26M24 36h26M70 26h26M70 36h20"/></g>
+<g id="window" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="30" y="8" width="60" height="64" rx="3"/><path d="M60 8v64M30 40h60"/><g fill="currentColor"><circle cx="20" cy="20" r="2"/><circle cx="12" cy="44" r="2"/><circle cx="100" cy="28" r="2"/><circle cx="108" cy="58" r="2"/><circle cx="18" cy="64" r="2"/></g></g>
+<g id="cup" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M30 34h50v14c0 12-10 20-25 20S30 60 30 48zM80 38h8c8 0 8 14 0 14h-8M22 72h66"/><path d="M45 26c-4-6 4-8 0-14M62 26c-4-6 4-8 0-14" opacity=".7"/></g>
+<g id="skull" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M60 8C38 8 28 24 28 40c0 10 6 16 12 20v10h40V60c6-4 12-10 12-20 0-16-10-32-32-32z"/><circle cx="48" cy="40" r="7" fill="currentColor"/><circle cx="72" cy="40" r="7" fill="currentColor"/><path d="M60 48l-4 8h8zM50 70v-8M60 70v-8M70 70v-8"/></g>
+<g id="badge" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M60 8l10 20 22 3-16 16 4 22-20-11-20 11 4-22-16-16 22-3z"/><path d="M48 38l9 9 16-16"/></g>
+<g id="door" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="34" y="6" width="52" height="68" rx="3"/><rect x="42" y="14" width="36" height="22"/><circle cx="76" cy="50" r="3" fill="currentColor"/><path d="M30 74h60"/></g>
+<g id="tunnel" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10 74V44C10 20 34 8 60 8s50 12 50 36v30M26 74V46c0-14 14-22 34-22s34 8 34 22v28"/><path d="M60 74V50M44 74l8-20M76 74l-8-20" opacity=".7"/></g>
+<g id="bag" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="22" y="28" width="76" height="44" rx="5"/><path d="M44 28V16h32v12M22 44h76M54 44v8h12v-8"/><path d="M100 70c4 0 6 2 6 6" opacity=".7"/></g>
+</defs>
+</svg>
+
+<div class="top lang" role="group" aria-label="Language">
+<button id="b-en" class="on" onclick="setLang('en')">English</button>
+<button id="b-fr" onclick="setLang('fr')">Français</button>
+<button id="b-mu" class="on" onclick="toggleMusic()" aria-label="Music">♪</button>
+<input type="range" id="vol" min="0" max="100" value="50" oninput="setVol(this.value)" aria-label="Volume">
+</div>
+<div id="storm"></div>
+<main><div class="lamp" aria-hidden="true"></div><section class="box" id="box" aria-live="polite"></section></main>
+
+<script>
+/* N:[icon, type(''|d|w|m), [title EN, FR], [text EN, FR], [[choice EN, choice FR, goto], ...]] */
+var S={
+1:["train","",["Compartment 7","Compartiment 7"],["A scream cuts through the rattle of the wheels at midnight. You are a passenger on the Midnight Express, and a retired detective. You reach compartment 7 first: Lord Harlan Voss, the richest man aboard, lies slumped across his desk, very dead. His reading lamp is still burning. The train will not stop for two hours.","Un cri déchire le fracas des roues à minuit. Vous êtes passager du Midnight Express, et détective à la retraite. Vous arrivez le premier au compartiment 7 : Lord Harlan Voss, l'homme le plus riche du train, gît effondré sur son bureau, bien mort. Sa lampe de lecture brûle encore. Le train ne s'arrêtera pas avant deux heures."],
+ [["Examine the body","Examiner le corps",2],["Find the conductor and question him","Trouver le contrôleur et l'interroger",3],["Lock down the corridor so no one leaves","Bloquer le couloir pour que personne ne parte",4],["Question the passengers in the sleeping car","Interroger les passagers du wagon-lit",31]]],
+2:["desk","",["The Body","Le corps"],["Voss was struck once from behind with something heavy. In his clenched hand is a torn ticket corner, punched with a star-shaped hole. The window is cracked open, and the desk drawers have been pulled out in a hurry. Whoever did this was searching for something, or wanted it to look that way.","Voss a été frappé une seule fois par derrière avec un objet lourd. Dans sa main crispée, un coin de billet déchiré, poinçonné d'une étoile. La fenêtre est entrouverte et les tiroirs du bureau ont été arrachés à la hâte. Le meurtrier cherchait quelque chose, ou voulait le faire croire."],
+ [["Search the desk","Fouiller le bureau",5],["Inspect the open window","Examiner la fenêtre ouverte",6]]],
+3:["key","",["The Conductor","Le contrôleur"],["Conductor Pell arrives pale and sweating, his cap crooked. He swears he was in the dining car all night and that he saw Dr. Roth slip out of Voss's cabin an hour ago. His key ring jingles with every breath. He answers every question a little too quickly.","Le contrôleur Pell arrive, pâle et en sueur, la casquette de travers. Il jure avoir passé la nuit au wagon-restaurant et avoir vu le docteur Roth sortir de la cabine de Voss il y a une heure. Son trousseau tinte à chaque souffle. Il répond à chaque question un peu trop vite."],
+ [["Believe him and go speak to Dr. Roth","Le croire et aller parler au docteur Roth",7],["Ask to see his master key","Lui demander de voir son passe",8]]],
+4:["shadow","",["The Dark Corridor","Le couloir sombre"],["You bar both ends of the corridor. Moments later the lights flicker and die. Something moves near the luggage door, a shape pressed against the wall, breathing fast and low.","Vous barrez les deux bouts du couloir. Peu après, les lumières vacillent et s'éteignent. Quelque chose bouge près de la porte des bagages, une forme plaquée contre le mur, qui respire vite et bas."],
+ [["Step toward the shape and confront it","Avancer vers la forme et l'affronter",9],["Back into compartment 7 and shut the door","Reculer dans le compartiment 7 et fermer la porte",2]]],
+5:["book","",["The Ledger","Le registre"],["Behind a false panel you find a leather ledger. Voss collected monthly payments from several people on this train. One entry stands out: sums beside the initial P, unpaid for three months. Beneath it, in his cramped hand: Tell the railway. Ruin him.","Derrière un faux panneau, vous trouvez un registre en cuir. Voss percevait des paiements mensuels de plusieurs personnes du train. Une ligne attire l'œil : des sommes à côté de l'initiale P, impayées depuis trois mois. En dessous, de sa petite écriture : Prévenir la compagnie. Le ruiner."],
+ [["Take the ledger to Mrs. Calloway, Voss's partner","Porter le registre à Mme Calloway, l'associée de Voss",10],["Show it to Teo Brandt, his secretary","Le montrer à Teo Brandt, son secrétaire",21],["Go straight to Conductor Pell","Aller directement voir le contrôleur Pell",11]]],
+6:["window","",["The Window","La fenêtre"],["Snow whips in from the dark. No footprints on the sill, but a scrap of dark blue uniform wool is caught on the latch. Ahead you hear the low roar of a tunnel. Something glints on the outer wall, just out of reach.","La neige s'engouffre dans la nuit. Aucune trace sur le rebord, mais un fil de laine bleu foncé, d'uniforme, est accroché au loquet. Devant vous, le grondement sourd d'un tunnel. Quelque chose brille sur la paroi extérieure, juste hors de portée."],
+ [["Lean out to see what is hanging outside","Se pencher dehors pour voir ce qui pend",12],["Pocket the thread, close the window, search the desk","Empocher le fil, fermer la fenêtre, fouiller le bureau",5]]],
+7:["cup","",["Dr. Roth's Tea","Le thé du docteur Roth"],["Dr. Elena Roth receives you with unnerving calm. A steaming teapot sits on her table, and she pours two cups without asking. \u00ab You look cold. Sit. Drink. Then ask me anything. \u00bb Her eyes never leave yours.","Le docteur Elena Roth vous reçoit avec un calme troublant. Une théière fumante trône sur sa table, et elle sert deux tasses sans rien demander. \u00ab Vous avez froid. Asseyez-vous. Buvez. Puis posez-moi vos questions. \u00bb Ses yeux ne quittent pas les vôtres."],
+ [["Drink the tea and relax","Boire le thé et se détendre",13],["Decline and press her about her argument with Voss","Refuser et la presser sur sa dispute avec Voss",14]]],
+8:["key","",["The Master Key","Le passe"],["Pell slowly unhooks his ring. Eleven keys, and a twelfth empty loop. \u00ab Lost it yesterday, \u00bb he mutters, far too quickly. Then he shoves you aside and bolts toward the rear of the train.","Pell décroche lentement son trousseau. Onze clés, et un douzième anneau vide. \u00ab Perdu hier, \u00bb marmonne-t-il, bien trop vite. Puis il vous bouscule et file vers l'arrière du train."],
+ [["Grab him and demand he empty his pockets","L'attraper et exiger qu'il vide ses poches",11],["Follow quietly and see where he goes","Le suivre discrètement pour voir où il va",15]]],
+9:["skull","d",["The Shape in the Dark","La forme dans le noir"],["You step forward and reach out. Steel flashes. The blade finds you before your eyes adjust, and the last thing you hear is the train, rattling on into the night, utterly indifferent.","Vous avancez et tendez la main. L'acier brille. La lame vous trouve avant que vos yeux ne s'habituent, et le dernier bruit que vous entendez est celui du train, qui roule dans la nuit, parfaitement indifférent."],[]],
+10:["door","",["Mrs. Calloway","Madame Calloway"],["Ines Calloway reads the ledger with cold, stiff fingers. \u00ab He owned half of everyone on this train. Including me. But I was at my table all night. \u00bb She does not blink. Behind her, the door of her own compartment stands slightly ajar.","Ines Calloway lit le registre de ses doigts raides et glacés. \u00ab Il possédait la moitié des gens de ce train. Moi comprise. Mais j'étais à ma table toute la nuit. \u00bb Elle ne cille pas. Derrière elle, la porte de son compartiment est entrouverte."],
+ [["Go with her to the dining car","L'accompagner au wagon-restaurant",16],["Slip into her compartment to look around","Se glisser dans son compartiment pour fouiller",22],["Ask her about her feud with Voss","L'interroger sur sa querelle avec Voss",41]]],
+11:["train","",["The Chase","La poursuite"],["Pell panics. He shoves past you and sprints through the swaying cars, upending luggage. At the rear platform he spins around, trapped, one hand on the door that opens onto the roaring dark. The emergency brake is within reach, and so is Pell.","Pell panique. Il vous bouscule et court à travers les wagons qui tanguent, renversant les valises. Sur la plateforme arrière, il se retourne, acculé, une main sur la porte qui donne sur la nuit rugissante. Le frein d'urgence est à portée de main, tout comme Pell."],
+ [["Pull the emergency brake","Tirer le frein d'urgence",17],["Tackle him on the open platform","Le plaquer sur la plateforme ouverte",18]]],
+12:["tunnel","d",["The Tunnel","Le tunnel"],["You lean out into the freezing wind, searching the side of the carriage. You never see the tunnel mouth rush up. The stone wall takes you at sixty miles an hour.","Vous vous penchez dans le vent glacial, scrutant le flanc du wagon. Vous ne voyez jamais l'entrée du tunnel surgir. Le mur de pierre vous happe à cent kilomètres à l'heure."],[]],
+13:["cup","d",["The Poisoned Cup","La tasse empoisonnée"],["The tea is warm and slightly bitter. By the second sip your fingers go numb. Dr. Roth watches without moving. \u00ab Voss was not the only one who knew too much, \u00bb she says softly, as the room tilts and goes dark.","Le thé est chaud et légèrement amer. À la deuxième gorgée, vos doigts s'engourdissent. Le docteur Roth vous regarde sans bouger. \u00ab Voss n'était pas le seul à en savoir trop, \u00bb dit-elle doucement, tandis que la pièce bascule dans le noir."],[]],
+14:["cup","",["Dr. Roth's Secret","Le secret du docteur Roth"],["Roth sets down the pot. \u00ab We argued because he threatened to expose a mistake I made years ago. But I did not kill him. Around two, I saw Pell leave cabin 7 carrying a bag, a star-punch in his hand. \u00bb She holds your gaze. \u00ab I think you already suspect him. \u00bb","Roth repose la théière. \u00ab Nous nous sommes disputés parce qu'il menaçait de révéler une erreur de mon passé. Mais je ne l'ai pas tué. Vers deux heures, j'ai vu Pell sortir de la cabine 7 avec un sac, un poinçon en forme d'étoile à la main. \u00bb Elle soutient votre regard. \u00ab Je crois que vous le soupçonnez déjà. \u00bb"],
+ [["Search the luggage car for the bag","Fouiller le wagon à bagages",15],["Gather everyone in the dining car","Réunir tout le monde au wagon-restaurant",16],["Ask her about the mistake she made","L'interroger sur son erreur passée",46]]],
+15:["bag","",["The Luggage Car","Le wagon à bagages"],["Between trunks and mailbags you find a canvas bag: gloves stiff with dried blood, a heavy brass lamp base, and a star-shaped ticket punch. A voice behind you says, \u00ab You really shouldn't have opened that. \u00bb Pell stands in the doorway, a revolver trembling in his hand.","Entre les malles et les sacs postaux, vous trouvez un sac de toile : des gants raidis de sang séché, un lourd pied de lampe en laiton et un poinçon en forme d'étoile. Une voix derrière vous dit : \u00ab Vous n'auriez pas dû l'ouvrir. \u00bb Pell se tient dans l'encadrement, un revolver tremblant à la main."],
+ [["Bluff: the police are waiting at the next station","Bluffer : la police attend à la prochaine gare",17],["Lunge for the gun","Se jeter sur l'arme",18],["Duck behind the trunks and wait","Se cacher derrière les malles et attendre",19]]],
+16:["train","",["The Dining Car","Le wagon-restaurant"],["Everyone sits stiffly under the amber lamps: Dr. Roth, Mrs. Calloway, the young secretary Teo Brandt, and Conductor Pell, one hand in his pocket. The coffee goes cold untouched. All eyes turn to you. It is time to name a killer.","Tous sont assis, raides, sous les lampes ambrées : le docteur Roth, Mme Calloway, le jeune secrétaire Teo Brandt et le contrôleur Pell, une main dans la poche. Le café refroidit, intact. Tous les regards se tournent vers vous. Il est temps de nommer un meurtrier."],
+ [["Accuse Conductor Pell","Accuser le contrôleur Pell",17],["Accuse Mrs. Calloway","Accuser Mme Calloway",20],["Accuse Dr. Roth","Accuser le docteur Roth",20],["Accuse Teo Brandt","Accuser Teo Brandt",20]]],
+17:["badge","w",["Justice at the Next Station","Justice à la prochaine gare"],["Pell's nerve breaks. He confesses: Voss had squeezed him for years over a forged-ticket racket and threatened to end his career, so in a rage he struck him down and staged a theft. At dawn the train stops, and police lead him away through the snow. You step onto the platform as the sun rises, tired but certain.","Pell craque. Il avoue : Voss le tenait depuis des années à cause d'un trafic de faux billets et menaçait de briser sa carrière. Dans sa rage, il l'a frappé et a maquillé un vol. À l'aube, le train s'arrête et la police l'emmène dans la neige. Vous descendez sur le quai au lever du soleil, fatigué mais certain."],[]],
+18:["skull","d",["A Struggle in the Dark","Une lutte dans le noir"],["You throw yourself at Pell. The gun goes off, and a searing pain blooms in your chest. You slide to the floor as the door slams and the train carries the killer away from you. Nobody finds you until morning.","Vous vous jetez sur Pell. Le coup part, et une douleur brûlante s'épanouit dans votre poitrine. Vous glissez au sol tandis que la porte claque et que le train emporte le meurtrier loin de vous. Personne ne vous trouve avant le matin."],[]],
+19:["bag","m",["The One Who Got Away","Celui qui a filé"],["You hold your breath as Pell searches, then gives up, grabs the bag and slips away. When the train slows at the next station, you stagger out and tell the police everything. They find the abandoned bag, but Pell is gone. You survive, and you will never forget his face.","Vous retenez votre souffle pendant que Pell cherche, puis renonce, saisit le sac et s'éclipse. Quand le train ralentit à la gare suivante, vous titubez dehors et racontez tout à la police. Ils retrouvent le sac abandonné, mais Pell a disparu. Vous survivez, et n'oublierez jamais son visage."],[]],
+20:["door","m",["The Wrong Suspect","Le mauvais suspect"],["You name your suspect with confidence, and the room goes silent. Then the evidence fails to fit, and your accusation unravels in public. The innocent person never forgives you, and while everyone argues, Pell quietly slips off at a dark siding. The case is never solved.","Vous nommez votre suspect avec assurance, et le silence se fait. Puis les preuves ne collent pas, et votre accusation s'effondre devant tous. L'innocent ne vous le pardonnera jamais, et pendant que tout le monde se querelle, Pell s'esquive sur une voie de garage obscure. L'affaire ne sera jamais résolue."],[]],
+21:["book","",["Teo Brandt","Teo Brandt"],["Teo is gray-faced and shaking when you show him the ledger. \u00ab I only typed his letters. I never knew what was in them. \u00bb His hand drifts to his jacket, where the corner of an envelope sticks out. When you reach for it, he flinches as if burned.","Teo est blême et tremblant quand vous lui montrez le registre. \u00ab Je ne faisais que taper ses lettres. Je ne savais pas ce qu'elles contenaient. \u00bb Sa main glisse vers sa veste, d'où dépasse le coin d'une enveloppe. Quand vous tendez le bras, il recule comme brûlé."],
+ [["Calmly demand the letter","Exiger calmement la lettre",22],["He bolts out the door: give chase","Il s'enfuit : le poursuivre",23]]],
+22:["book","",["The Letter","La lettre"],["The envelope holds a draft letter in Voss's handwriting, addressed to the railway board and dated yesterday. It names Conductor Pell as head of a forged-ticket scheme and demands his arrest at the end of this journey. You now hold a motive, in writing, for the one man who can open any door on this train.","L'enveloppe contient un brouillon de lettre de la main de Voss, adressé au conseil de la compagnie et daté d'hier. Il y nomme le contrôleur Pell chef d'un trafic de faux billets et exige son arrestation à l'arrivée. Vous tenez désormais un mobile, écrit, pour le seul homme qui peut ouvrir toutes les portes du train."],
+ [["Carry it to the dining car and gather everyone","L'apporter au wagon-restaurant et réunir tout le monde",16],["Go find Pell in the staff quarters","Aller trouver Pell dans les quartiers du personnel",26]]],
+23:["tunnel","",["The Roof","Le toit"],["Teo flings open the end door and scrambles up an iron ladder onto the roof of the moving train. Snow and smoke whip around him as he crouches by the chimney vent. You climb after him, wind tearing at your sleeves.","Teo ouvre la porte du bout et grimpe à une échelle de fer jusqu'au toit du train en marche. Neige et fumée tourbillonnent autour de lui, accroupi près de la cheminée. Vous le suivez, le vent arrachant vos manches."],
+ [["Keep climbing toward him along the icy roof","Continuer vers lui sur le toit verglacé",24],["Stop and call out to him gently","S'arrêter et l'appeler doucement",25]]],
+24:["skull","d",["The Icy Roof","Le toit verglacé"],["You lunge across the roof for Teo's arm just as the carriage lurches around a curve. Your boots slide on the ice. For a second you are weightless, and then the dark embankment rises to meet you.","Vous vous élancez vers le bras de Teo au moment où le wagon tangue dans une courbe. Vos bottes glissent sur la glace. Une seconde, vous ne pesez plus rien, puis le talus obscur se rue à votre rencontre."],[]],
+25:["key","",["Teo's Confession","L'aveu de Teo"],["Teo slowly climbs down with you, sobbing. \u00ab I ran because I saw him. At two in the morning Pell opened cabin 7 with his master key, a ticket punch in his hand. I was too scared to speak. \u00bb He presses a small brass key into your palm. \u00ab It opens the staff quarters. Be careful. \u00bb","Teo redescend lentement avec vous, en sanglots. \u00ab J'ai fui parce que je l'ai vu. À deux heures du matin, Pell a ouvert la cabine 7 avec son passe, un poinçon à la main. J'avais trop peur pour parler. \u00bb Il glisse une petite clé de laiton dans votre paume. \u00ab Elle ouvre les quartiers du personnel. Soyez prudent. \u00bb"],
+ [["Go to Pell's quarters alone","Aller seul aux quartiers de Pell",26],["Search the luggage car for the bag first","Fouiller d'abord le wagon à bagages",15]]],
+26:["door","",["Pell's Quarters","Les quartiers de Pell"],["The staff quarters are cramped and smell of damp wool. In the wardrobe hangs a dark blue uniform jacket with a torn cuff, and the scrap from the window fits it perfectly. Under the bunk is a tin box of forged tickets. Footsteps stop outside, and a key turns in the lock.","Les quartiers du personnel sont exigus et sentent la laine humide. Dans l'armoire pend une veste d'uniforme bleu foncé au poignet déchiré, et le fil de la fenêtre s'y accorde parfaitement. Sous la couchette, une boîte de fer-blanc pleine de faux billets. Des pas s'arrêtent dehors, et une clé tourne dans la serrure."],
+ [["Step out and confront Pell with the torn jacket","Se dresser face à Pell avec la veste déchirée",27],["Hide inside the wardrobe","Se cacher dans l'armoire",28]]],
+27:["key","",["The Standoff","L'impasse"],["Pell freezes in the doorway, staring at the jacket in your hands. Then his shoulders drop. \u00ab I could make this very easy, \u00bb he says, sliding a thick envelope of cash from his coat. \u00ab Enough to retire twice over. Take it, and nobody ever needs to know. \u00bb","Pell se fige sur le seuil, les yeux rivés sur la veste que vous tenez. Puis ses épaules s'affaissent. \u00ab Je peux vous faciliter la vie, \u00bb dit-il en sortant de son manteau une épaisse enveloppe de billets. \u00ab De quoi prendre deux fois votre retraite. Prenez-la, et personne n'en saura rien. \u00bb"],
+ [["Refuse and place him under citizen's arrest","Refuser et l'arrêter en citoyen",17],["Take the envelope","Prendre l'enveloppe",29]]],
+28:["door","",["Inside the Wardrobe","Dans l'armoire"],["Through the crack in the door you watch Pell pace and mutter, burning papers in the little stove. The wardrobe smells of camphor and old smoke. He stops, tilts his head, and looks straight at the wardrobe. A floorboard has creaked under your foot.","Par la fente de la porte, vous voyez Pell faire les cent pas en marmonnant, brûlant des papiers dans le petit poêle. L'armoire sent le camphre et la fumée froide. Il s'arrête, penche la tête, et regarde droit vers l'armoire. Une latte du plancher a craqué sous votre pied."],
+ [["Burst out and confront him","Surgir et l'affronter",27],["Stay completely still","Rester parfaitement immobile",30]]],
+29:["badge","m",["Blood Money","L'argent du sang"],["You take the envelope. Pell smiles, relieved, and the next morning he vanishes at the first station. You live comfortably for years, but you never sleep well, and you never stop hearing Voss's scream. A detective who can be bought is no detective at all.","Vous prenez l'enveloppe. Pell sourit, soulagé, et le lendemain il disparaît à la première gare. Vous vivez confortablement des années, mais vous ne dormez plus bien et n'oubliez jamais le cri de Voss. Un détective qu'on peut acheter n'est plus un détective."],[]],
+30:["skull","d",["Found","Découvert"],["The wardrobe door swings open. Pell stands there, the heavy brass lamp base in his hand. \u00ab I really wish you hadn't been so clever, {T} {n}, \u00bb he says. The blow is quick, and the train carries on through the snow without ever slowing down.","La porte de l'armoire s'ouvre à la volée. Pell est là, le lourd pied de lampe en laiton à la main. \u00ab J'aurais vraiment préféré que vous soyez moins malin, {T} {n}, \u00bb dit-il. Le coup est rapide, et le train poursuit sa route dans la neige sans jamais ralentir."],[]],
+31:["door","",["The Sleeping Car","Le wagon-lit"],["Curtained berths line the narrow sleeping car, each hiding someone pretending to be asleep. Major Arthur Hale, a gray-mustached veteran, steps out in his dressing gown. «Detective {n}, around two I heard a key turn in Voss's door, then a man humming, very softly. I'm a light sleeper.» Behind him a frightened porter whispers that the stoker, Dunn, saw something strange near the engine.","Des couchettes à rideaux bordent l'étroit wagon-lit, chacune cachant quelqu'un qui fait semblant de dormir. Le major Arthur Hale, un vétéran à la moustache grise, sort en robe de chambre. «Détective {n}, vers deux heures j'ai entendu une clé tourner dans la porte de Voss, puis un homme fredonner, très doucement. J'ai le sommeil léger.» Derrière lui, un porteur effrayé murmure que le chauffeur, Dunn, a vu quelque chose d'étrange près de la locomotive."],
+ [["Ask the Major to let you look inside his compartment","Demander au major de fouiller son compartiment",32],["Follow the porter's whisper to the engine room","Suivre le murmure du porteur jusqu'à la salle des machines",33]]],
+32:["key","",["The Major's Secret","Le secret du major"],["Inside you find a service revolver in an open case and a framed photograph of a young soldier. A shadow falls across the doorway: Hale has followed you in, one hand resting on the case. «Careful,» he says quietly. «Some things in this room are none of your business.»","À l'intérieur, un revolver d'ordonnance dans un étui ouvert et la photographie encadrée d'un jeune soldat. Une ombre tombe sur le seuil : Hale vous a suivi, une main posée sur l'étui. «Prudence,» dit-il doucement. «Certaines choses ici ne vous regardent pas.»"],
+ [["Tell him the truth about the case","Lui dire la vérité sur l'enquête",34],["Snatch the revolver before he can","Saisir le revolver avant lui",35]]],
+33:["train","",["The Engine Room","La salle des machines"],["Heat hammers you as the furnace door swings open. Dunn the stoker wipes soot from his face. «Pell came by at ten past two with a canvas bag. Wanted me to burn it. I said no, and he took it away again.» Behind him a ladder climbs into the coal tender, where something pale glints among the black heaps.","La chaleur vous écrase quand la porte du foyer s'ouvre. Dunn, le chauffeur, essuie la suie de son visage. «Pell est passé à deux heures dix avec un sac de toile. Il voulait que je le brûle. J'ai refusé, et il l'a repris.» Derrière lui, une échelle monte vers le tender à charbon, où quelque chose de pâle brille parmi les tas noirs."],
+ [["Ask Dunn to come with you as a witness","Demander à Dunn de vous suivre comme témoin",37],["Climb into the coal tender to find the glint","Grimper dans le tender pour trouver l'éclat",36]]],
+34:["badge","",["An Unexpected Ally","Un allié inattendu"],["You lay it all out: the ledger, the star-punch, the thread of blue wool. Hale listens, then relaxes. «I'm no murderer, {n}. If it's Pell, I'll stand beside you.» He hands you the revolver, grip first. «Your call.»","Vous exposez tout : le registre, le poinçon en étoile, le fil de laine bleue. Hale écoute, puis se détend. «Je ne suis pas un meurtrier, {n}. Si c'est Pell, je serai à vos côtés.» Il vous tend le revolver, crosse en avant. «À vous de décider.»"],
+ [["Go to Pell together with the Major","Aller voir Pell avec le major",39],["Take the revolver and search the luggage car alone","Prendre le revolver et fouiller seul le wagon à bagages",15]]],
+35:["skull","d",["Reflex","Réflexe"],["Your hand closes on the revolver, but Hale's old instincts are faster than your fingers. A single sharp crack fills the little room. The last thing you see is the photograph of the young soldier, lying face-down on the floor.","Votre main se referme sur le revolver, mais les vieux réflexes de Hale sont plus rapides que vos doigts. Une détonation sèche emplit la petite pièce. La dernière chose que vous voyez est la photographie du jeune soldat, face contre le sol."],[]],
+36:["skull","d",["Buried in Coal","Enseveli sous le charbon"],["You haul yourself into the tender and crawl toward the glint. The train lurches over a rail joint, and the black mountain beneath you gives way. Coal pours over your shoulders, then your head. Nobody hears you over the roar of the engine.","Vous vous hissez dans le tender et rampez vers l'éclat. Le train tressaute sur un joint de rail, et la montagne noire cède sous vous. Le charbon se déverse sur vos épaules, puis sur votre tête. Personne ne vous entend dans le vacarme de la machine."],[]],
+37:["key","",["The Stoker's Word","La parole du chauffeur"],["Dunn nods and wipes his hands. «I'll say what I saw. But hurry. Last I looked, Pell was heading for the rear of the train with a wrench.» The train thunders on, and every second counts.","Dunn hoche la tête et s'essuie les mains. «Je dirai ce que j'ai vu. Mais dépêchez-vous. La dernière fois, Pell filait vers l'arrière du train avec une clé à molette.» Le train file dans un fracas, et chaque seconde compte."],
+ [["Race to the rear platform with Dunn","Courir vers la plateforme arrière avec Dunn",38],["Take Dunn to the dining car to tell everyone","Emmener Dunn au wagon-restaurant pour tout raconter",16]]],
+38:["train","",["The Coupling","L'attelage"],["On the rear platform Pell kneels over the coupling pin, wrench in fist, the pin already half loose. Once it slips, the last cars will drift away with every witness inside, and he will walk free into the night. Dunn grips his shovel beside you.","Sur la plateforme arrière, Pell est agenouillé sur la broche d'attelage, une clé à la main, la broche déjà à moitié desserrée. Quand elle lâchera, les derniers wagons dériveront avec tous les témoins, et il disparaîtra libre dans la nuit. Dunn serre sa pelle à côté de vous."],
+ [["Pull the emergency brake","Tirer le frein d'urgence",17],["Rush Pell with Dunn at your side","Foncer sur Pell avec Dunn à vos côtés",40]]],
+39:["key","",["The Major's Aim","La visée du major"],["You and Hale find Pell in the corridor outside the staff quarters, his own revolver pointed at the Major's chest. «Back off, old man,» Pell hisses. Hale does not flinch. The Major's revolver, in your hand, is cold and heavy.","Vous et Hale trouvez Pell dans le couloir devant les quartiers du personnel, son propre revolver braqué sur la poitrine du major. «Reculez, vieil homme,» siffle Pell. Hale ne bronche pas. Le revolver du major, dans votre main, est froid et lourd."],
+ [["Raise the revolver and fire at his gun hand","Lever le revolver et tirer sur sa main armée",40],["Lower your voice and try to talk him down","Baisser la voix et tenter de le raisonner",17]]],
+40:["badge","w",["A Train Full of Witnesses","Un train de témoins"],["In the chaos, one hand finds a wrench, another a revolver, and Pell goes down hard. Passengers spill from their berths as the train rolls on, still whole. By dawn the police have a confession, and half the carriage has a story to tell. It took more than one person to catch this killer, and you are glad you were not alone.","Dans le chaos, une main saisit une clé, une autre un revolver, et Pell s'effondre. Les passagers jaillissent de leurs couchettes tandis que le train roule, toujours entier. À l'aube, la police a des aveux, et la moitié du wagon a une histoire à raconter. Il a fallu plus d'une personne pour arrêter ce meurtrier, et vous êtes heureux de ne pas avoir été seul."],[]],
+41:["door","",["Calloway's Confession","L'aveu de Calloway"],["Ines Calloway sets her cup down very carefully. «Voss forced my signature on the mine papers years ago. I hated him, {n}, but I did not kill him.» She presses a small iron key into your hand. «His second ledger is locked in the safe of the mail car. He trusted no one with it. Not even Pell.»","Ines Calloway pose sa tasse avec un soin extrême. «Voss m'a forcé la main pour signer les actes de la mine, il y a des années. Je le haïssais, {n}, mais je ne l'ai pas tué.» Elle glisse une petite clé de fer dans votre main. «Son second registre est enfermé dans le coffre du wagon postal. Il ne se fiait à personne. Pas même à Pell.»"],
+ [["Go to the mail car","Aller au wagon postal",42],["Doubt her and check her compartment","Douter d'elle et fouiller son compartiment",22]]],
+42:["bag","",["The Mail Car","Le wagon postal"],["Mail sacks sag like sleeping animals in the swaying dark. At the far end stands a squat iron safe with a brass dial. You could open it with the key, or by brute force: a crowbar leans against a sack within reach.","Les sacs postaux s'affaissent comme des bêtes endormies dans l'obscurité tanguante. Au fond se dresse un coffre de fer trapu à cadran de laiton. Vous pourriez l'ouvrir avec la clé, ou de force : un pied-de-biche est appuyé contre un sac, à portée de main."],
+ [["Open the safe with Calloway's key","Ouvrir le coffre avec la clé de Calloway",43],["Force the safe with the crowbar","Forcer le coffre au pied-de-biche",44]]],
+43:["book","",["The Second Ledger","Le second registre"],["Inside lies a thin black ledger. Voss's notes expose Conductor Pell as Percival Lunt, a fraudster wanted in three countries, and record every payment he extorted. On a shelf beside the safe sits a telegraph key, wired to the line along the track.","À l'intérieur repose un mince registre noir. Les notes de Voss dévoilent le contrôleur Pell comme Percival Lunt, un escroc recherché dans trois pays, et consignent chaque paiement qu'il a extorqué. Sur une étagère à côté du coffre, un manipulateur télégraphique est relié à la ligne le long de la voie."],
+ [["Confront everyone in the dining car","Confronter tout le monde au wagon-restaurant",16],["Send a telegram to the next station","Envoyer un télégramme à la prochaine gare",45],["Take the ledger to Major Hale","Porter le registre au major Hale",34]]],
+44:["skull","d",["The Noisy Way","La manière bruyante"],["The crowbar slips with a ringing clang that echoes down the whole train. You barely turn before the mail car door slides shut and a key clicks. «Voss never could keep his secrets quiet either,» says Pell. The lamp goes out.","Le pied-de-biche glisse dans un fracas qui résonne dans tout le train. Vous avez à peine le temps de vous retourner que la porte du wagon postal se referme et qu'une clé cliquette. «Voss non plus n'a jamais su garder ses secrets discrets,» dit Pell. La lampe s'éteint."],[]],
+45:["key","",["The Telegraph","Le télégraphe"],["You tap out the message with shaking fingers: Lunt aboard Midnight Express, murder, hold the train. The wire hums, then the reply clicks back: «Police waiting at Harrow Junction. Keep him aboard.» Forty minutes remain, and the lamps flicker as the train begins to slow.","Vous tapez le message d'une main tremblante : Lunt à bord du Midnight Express, meurtre, retenez le train. Le fil bourdonne, puis la réponse cliquette : «Police à Harrow Junction. Gardez-le à bord.» Il reste quarante minutes, et les lampes vacillent tandis que le train commence à ralentir."],
+ [["Go to the dining car and keep everyone calm","Aller au wagon-restaurant et calmer tout le monde",49],["Meet the police on the platform when the train stops","Attendre la police sur le quai à l'arrêt du train",17]]],
+46:["cup","",["Roth's Mistake","L'erreur de Roth"],["Roth stares at her folded hands. «Years ago I signed a death certificate for a man who was still breathing. Voss paid me to, and kept it as leverage.» She slides a small leather medical bag toward you. «There is a sedative in there, strong enough to put a man to sleep in minutes. Use it if you must.»","Roth fixe ses mains jointes. «Il y a des années, j'ai signé le certificat de décès d'un homme qui respirait encore. Voss me l'avait payé, et il s'en servait contre moi.» Elle fait glisser vers vous une petite sacoche de cuir. «Il y a un sédatif là-dedans, assez fort pour endormir un homme en quelques minutes. Servez-vous-en si vous le devez.»"],
+ [["Take the vial","Prendre la fiole",47],["Refuse and return the bag","Refuser et rendre la sacoche",16]]],
+47:["cup","",["The Vial","La fiole"],["The glass vial is cold in your pocket. In the dining car Pell is serving coffee with steady hands, and he has not noticed you watching. A tray of cups waits on the counter, one marked by a chipped saucer. It is his.","La fiole de verre est froide dans votre poche. Au wagon-restaurant, Pell sert le café d'une main ferme, sans vous avoir remarqué. Un plateau de tasses attend sur le comptoir, l'une marquée d'une soucoupe ébréchée. C'est la sienne."],
+ [["Slip the sedative into Pell's cup","Verser le sédatif dans la tasse de Pell",48],["Keep the vial hidden and accuse him openly","Garder la fiole cachée et l'accuser ouvertement",17]]],
+48:["cup","m",["The Wrong Cup","La mauvaise tasse"],["Pell sees your hand move and, smiling, swaps his cup with the one beside it. Teo Brandt drains it in one gulp, and the room tilts around him. In the panic nobody believes your story, and Pell slips away in the confusion. Teo wakes at dawn, but the case never closes.","Pell voit votre main bouger et, en souriant, échange sa tasse avec celle d'à côté. Teo Brandt la vide d'un trait, et la pièce bascule autour de lui. Dans la panique, personne ne croit votre histoire, et Pell s'esquive dans la confusion. Teo se réveille à l'aube, mais l'affaire ne sera jamais close."],[]],
+49:["badge","w",["Read Aloud","Lecture à voix haute"],["In the dining car you read Voss's second ledger aloud, and the telegram reply with it. Pell's real name drops into the silence like a stone. Hale and Dunn block the doors, Roth and Calloway stand together, and Teo finds his courage. At Harrow Junction the police take Percival Lunt away, and the train applauds you as dawn comes up.","Au wagon-restaurant, vous lisez à voix haute le second registre de Voss, puis la réponse du télégramme. Le vrai nom de Pell tombe dans le silence comme une pierre. Hale et Dunn bloquent les portes, Roth et Calloway se tiennent côte à côte, et Teo trouve son courage. À Harrow Junction, la police emmène Percival Lunt, et le train vous applaudit tandis que l'aube se lève."],[]],
+50:["badge","s",["Curtain Call","Rideau"],["The Midnight Express rolls into a grand theater. The lights rise, the snow turns out to be paper, and Lord Voss sits up on his desk. «Was that a wrap?» he asks. Pell hands the revolver to the props table, Roth pours real tea, and the whole cast takes a bow. You step forward, {n}, and the audience, which is you, applauds. Thank you for playing.","Le Midnight Express entre dans un grand théâtre. Les lumières se rallument, la neige était du papier, et Lord Voss se redresse sur son bureau. «C'était la bonne prise ?» demande-t-il. Pell rend le revolver à l'accessoiriste, Roth sert du vrai thé, et toute la troupe salue. Vous avancez, {n}, et le public, c'est vous, applaudit. Merci d'avoir joué."],[]]
+};
+var UI={
+ title:["Murder on the Midnight Express","Meurtre dans le Midnight Express"],
+ sub:["A night train. A dead millionaire. Five suspects. Every choice could be your last.","Un train de nuit. Un millionnaire mort. Cinq suspects. Chaque choix peut être le dernier."],
+ name:["Detective's name","Nom du détective"],ph:["Enter a name","Entrez un nom"],m:["Male","Homme"],f:["Female","Femme"],
+ start:["Begin the investigation","Commencer l'enquête"],cont:["Continue","Continuer"],ends:["Endings","Fins"],how:["How to play","Comment jouer"],
+ reset:["Reset progress","Réinitialiser"],menu:["Main menu","Menu principal"],again:["Play again","Rejouer"],end:["THE END","FIN"],
+ tag:{d:["You died","Vous êtes mort"],w:["Case solved","Affaire résolue"],m:["Not a clean ending","Une fin imparfaite"],s:["Secret ending","Fin secrète"]},
+ case:["Detective {n} is on the case.","Le détective {n} est sur l'affaire."],
+ howt:["Read each scene, then choose what to do next. Some choices reveal clues, some are dangerous, and some are fatal. Your name, progress and discovered endings are saved on this device, and you can switch language at any time.","Lisez chaque scène, puis choisissez ce que vous faites. Certains choix révèlent des indices, d'autres sont dangereux, d'autres fatals. Votre nom, votre progression et les fins découvertes sont enregistrés sur cet appareil, et vous pouvez changer de langue à tout moment."],
+ sec:["Secrets","Secrets"],games:["Games","Jeux"],epi:["Secret epilogue","Épilogue secret"],
+ fam:["A famous name. Somewhere on the train, a conductor swallows hard.","Un nom célèbre. Quelque part dans le train, un contrôleur déglutit avec peine."],
+ gh:["The lamp flickers. A cold whisper: «Look behind the desk, detective.»","La lampe vacille. Un murmure glacé : «Regardez derrière le bureau, détective.»"],
+ lockedt:["Locked","Verrouillée"],found:["discovered","découvertes"],hint:["Keep playing to unlock the rest.","Continuez à jouer pour débloquer les autres."],conf:["Erase all progress?","Effacer toute la progression ?"]
+};
+/* ADD YOUR IMAGES HERE. 0 is the menu, 1 to 40 match the scene numbers. Leave "" for the placeholder icon. */
+var SHOW_HINTS=true;
+var IMG = {
+  0: "images/title.jpg",
+  1: "images/voss1.jpg",
+  2: "images/voss.jpg",
+  3: "images/conducter.jpg",
+  4: "images/figure.jpg",
+  5: "images/ledger.jpg",
+  6: "images/fabric.jpg",
+  7: "images/doctor.jpg",
+  8: "images/keys.jpg",
+  9: "images/figure1.jpg",
+  10: "images/woman.jpg",
+
+  11: "images/chase.jpg",
+  12: "images/rush.jpg",
+  13: "images/poison.jpg",
+  14: "images/tea.jpg",
+  15: "images/luggage.jpg",
+  16: "images/people.jpg",
+  17: "images/arrest.jpg",
+  18: "images/gundeath.jpg",
+  19: "images/escape.jpg",
+  20: "images/argument.jpg",
+
+  21: "images/theo.jpg",
+  22: "images/letter1.jpg",
+  23: "images/train.jpg",
+  24: "images/fall.jpg",
+  25: "images/key.jpg",
+  26: "images/jacket.jpg",
+  27: "images/money.jpg",
+  28: "images/burning.jpg",
+  29: "images/confused.jpg",
+  30: "images/dude.jpg",
+
+  31: "images/sleepingtrain.jpg",
+  32: "images/doorway.jpg",
+  33: "images/trainfire.jpg",
+  34: "images/ally.jpg",
+  35: "images/picture.jpg",
+  36: "images/coal.jpg",
+  37: "images/firetrain.jpg",
+  38: "images/fixing.jpg",
+  39: "images/damn.jpg",
+  40: "images/lol.png",
+
+  41: "images/personidk.jpg",
+  42: "images/safe.jpg",
+  43: "images/safev2.jpg",
+  44: "images/lmao.jpg",
+  45: "images/telegraph.jpg",
+  46: "images/sus.jpg",
+  47: "images/weird.jpg",
+  48: "images/run.png",
+  49: "images/truth.jpg",
+  50: "images/finale.png"
+};
+var KEY='mex_v2',P={name:'',g:'m'},F={},X={},D=0,tc=0,PT=0,ghost=0,last=0,lang=0,cur=0,view='menu';
+var RULES=[["le premier","la première"],["fatigué mais certain","fatiguée mais certaine"],["Aller seul","Aller seule"],["fouiller seul","fouiller seule"],["passager du","passagère du"],["Vous êtes mort","Vous êtes morte"],["Le détective","La détective"],["Soyez prudent","Soyez prudente"],["moins malin","moins maligne"],["heureux de ne pas avoir été seul","heureuse de ne pas avoir été seule"]];
+function load(){try{var d=JSON.parse(localStorage.getItem(KEY)||'{}');P.name=d.name||'';P.g=d.g||'m';F=d.f||{};X=d.x||{};MON=d.m!==false;MV=d.v==null?.5:d.v;D=d.d||0;last=d.s||0;lang=d.l||0}catch(e){}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify({name:P.name,g:P.g,f:F,s:last,l:lang,x:X,d:D,m:MON,v:MV}))}catch(e){}}
+function esc(s){return String(s).replace(/[&<>"']/g,function(c){return '&#'+c.charCodeAt(0)+';'})}
+function fx(s){
+ s=s.split('{n}').join(esc(P.name.trim()||'Quill')).split('{T}').join(P.g=='f'?(lang?'Mme':'Ms.'):(lang?'M.':'Mr.'));
+ if(lang&&P.g=='f')RULES.forEach(function(r){s=s.split(r[0]).join(r[1])});
+ return s}
+function ends(){return Object.keys(S).filter(function(k){return !S[k][4].length})}
+function nF(){return Object.keys(F).length}
+function pic(i,c,n){
+ var src=IMG[n];
+ if(src)return '<div class="frame has '+c+'"><img src="'+src+'" alt=""></div>';
+ return '<div class="frame '+c+'"><svg class="pic '+c+'" viewBox="0 0 120 80" aria-hidden="true"><use href="#'+i+'"/></svg>'+(SHOW_HINTS?'<span class="hint">Image '+n+'</span>':'')+'</div>';
+}
+function bar(){return '<div class="bar"><button class="mb" data-a="menu">☰ '+UI.menu[lang]+'</button></div>'}
+function mMenu(){
+ var h='<div class="hero fade">'+pic('train','',0)+'<h1>'+UI.title[lang]+'</h1><p class="sub">'+UI.sub[lang]+'</p>'+VISTA+
+ '<input id="nm" maxlength="16" autocomplete="off" aria-label="'+UI.name[lang]+'" placeholder="'+UI.ph[lang]+'" value="'+esc(P.name)+'">'+
+ '<div class="gen"><button data-a="g" data-v="m" class="'+(P.g=='m'?'on':'')+'">'+UI.m[lang]+'</button><button data-a="g" data-v="f" class="'+(P.g=='f'?'on':'')+'">'+UI.f[lang]+'</button></div>'+
+ '<button class="go" data-a="start">'+UI.start[lang]+'</button><div class="menu">';
+ if(last)h+='<button data-a="cont">'+UI.cont[lang]+'</button>';
+ return h+'<button data-a="ends">'+UI.ends[lang]+' ('+nF()+'/'+ends().length+')</button><button data-a="games">'+UI.games[lang]+'</button><button data-a="sec">'+UI.sec[lang]+' ('+Object.keys(X).length+'/'+SEC.length+')</button>'+(X.closed?'<button data-n="50">'+UI.epi[lang]+'</button>':'')+'<button data-a="how">'+UI.how[lang]+'</button><button data-a="reset">'+UI.reset[lang]+'</button></div></div>';
+}
+function mStory(){
+ var s=S[cur],t=s[1],h='<div class="fade">'+bar()+pic(s[0],t,cur);
+ if(t)h+='<span class="tag '+t+'">'+fx(UI.tag[t][lang])+'</span>';
+ h+='<h2>'+fx(s[2][lang])+'</h2>';
+ if(cur==1){h+='<p class="nm">'+fx(UI.case[lang])+'</p>';if(famous())h+='<p class="nm">'+UI.fam[lang]+'</p>';if(ghost)h+='<p class="nm">'+UI.gh[lang]+'</p>'}
+ h+='<p>'+fx(s[3][lang])+'</p>';
+ if(s[4].length){h+='<div class="opts">';s[4].forEach(function(o){h+='<button data-n="'+o[2]+'">'+fx(o[lang])+(X.konami&&S[o[2]][1]=='d'?' ☠':'')+'</button>'});h+='</div>'}
+ else h+='<div class="end">'+UI.end[lang]+'</div><div class="opts"><button data-a="start">'+UI.again[lang]+'</button><button data-a="ends">'+UI.ends[lang]+'</button></div>';
+ return h+'</div>';
+}
+function mEnds(){
+ var e=ends(),h='<div class="fade">'+bar()+'<h2>'+UI.ends[lang]+'</h2><p class="dim">'+nF()+' / '+e.length+' '+UI.found[lang]+'</p><div class="grid">';
+ e.forEach(function(k,i){var s=S[k];
+  if(F[k])h+='<div class="card '+s[1]+'"><b>#'+(i+1)+'</b><span>'+fx(s[2][lang])+'</span><em>'+fx(UI.tag[s[1]][lang])+'</em></div>';
+  else h+='<div class="card lock"><b>#'+(i+1)+'</b><span>? ? ?</span><em>'+UI.lockedt[lang]+'</em></div>'});
+ return h+'</div><p class="dim">'+UI.hint[lang]+'</p></div>';
+}
+function mHow(){return '<div class="fade">'+bar()+'<h2>'+UI.how[lang]+'</h2><p>'+UI.howt[lang]+'</p></div>'}
+function render(){clearTimeout(TT);
+ document.getElementById('box').innerHTML=view=='games'?mGames():view=='g2048'?m2048():view=='gtetris'?mTet():view=='gchess'?mChess():view=='gclick'?mClick():view=='sec'?mSec():view=='ends'?mEnds():view=='how'?mHow():view=='story'?mStory():mMenu();
+ setMood(moodFor());if(view=='g2048')Q.init();if(view=='gtetris')T.init();if(view=='gchess')CH.nw();if(view=='gclick')CK.init();
+}
+function go(n){
+ clearTimeout(PT);cur=n;view='story';var s=S[n];
+ if(!s[4].length){F[n]=1;last=0;if(s[1]=='d'){D++;if(D>=9)unlock('nine')}
+  if(!ends().filter(function(k){return k!='50'&&!F[k]}).length)unlock('closed')}
+ else last=n;
+ if(n==1){ghost=0;if(famous())unlock('great');PT=setTimeout(function(){if(view=='story'&&cur==1){ghost=1;unlock('patient');render()}},40000)}
+ save();render();window.scrollTo({top:0,behavior:'smooth'});
+}
+function setLang(l){lang=l=='fr'?1:0;document.documentElement.lang=l;
+ document.getElementById('b-en').className=lang?'':'on';document.getElementById('b-fr').className=lang?'on':'';
+ document.title=UI.title[lang];save();render()}
+var SEC=[
+ ["great","Great Minds","Esprits brillants","Some names open more than doors.","Certains noms ouvrent plus que des portes.","A famous detective's name earns a nervous look from the conductor.","Le nom d'un célèbre détective inquiète le contrôleur."],
+ ["toot","All Aboard","Tout le monde à bord","The title is louder than it looks.","Le titre est plus bruyant qu'il n'y paraît.","You made the train whistle. Toot toot!","Vous avez fait siffler le train. Tut tut !"],
+ ["konami","Old Habits","Vieilles habitudes","An old gamer's habit still works here.","Une vieille habitude de joueur marche encore ici.","Detective's Instinct: deadly choices are now marked with ☠.","Instinct du détective : les choix mortels sont marqués d'un ☠."],
+ ["patient","The Patient Detective","Le détective patient","Some mysteries reward the patient.","Certains mystères récompensent les patients.","Voss's lamp flickered and his ghost whispered a clue.","La lampe de Voss a vacillé et son fantôme a murmuré un indice."],
+ ["nine","Nine Lives","Neuf vies","The train notices those who die often.","Le train remarque ceux qui meurent souvent.","Nine deaths. The conductor tips his cap in respect.","Neuf morts. Le contrôleur salue en soulevant sa casquette."],
+ ["closed","Case Closed","Affaire classée","Complete the case, every way it can end.","Bouclez l'affaire, de toutes les façons possibles.","Every ending found. The secret epilogue is unlocked in the main menu.","Toutes les fins trouvées. L'épilogue secret est débloqué dans le menu principal."]
+];
+function famous(){var n=P.name.toLowerCase();return ['sherlock','holmes','poirot','marple','columbo','watson'].some(function(x){return n.indexOf(x)>-1})}
+function unlock(id){if(X[id])return;X[id]=1;save();var c=SEC.filter(function(z){return z[0]==id})[0],t=document.createElement('div');t.className='toast';t.textContent=UI.sec[lang]+': '+c[1+lang];document.body.appendChild(t);setTimeout(function(){t.remove()},3500)}
+function mSec(){
+ var h='<div class="fade">'+bar()+'<h2>'+UI.sec[lang]+'</h2><p class="dim">'+Object.keys(X).length+' / '+SEC.length+' '+UI.found[lang]+'</p><div class="grid">';
+ SEC.forEach(function(c,i){
+  if(X[c[0]])h+='<div class="card m"><b>#'+(i+1)+'</b><span>'+c[1+lang]+'</span><em>'+c[5+lang]+'</em></div>';
+  else h+='<div class="card lock"><b>#'+(i+1)+'</b><span>? ? ?</span><em>'+c[3+lang]+'</em></div>'});
+ return h+'</div></div>'}
+var KS=[38,38,40,40,37,39,37,39,66,65],ki=0;
+document.addEventListener('keydown',function(e){ki=e.keyCode==KS[ki]?ki+1:(e.keyCode==KS[0]?1:0);if(ki==KS.length){ki=0;unlock('konami');render()}});
+document.getElementById('box').addEventListener('click',function(e){
+ if(view=='menu'&&e.target.closest('h1')){if(++tc==5)unlock('toot')}
+ var b=e.target.closest('button');if(!b)return;
+ if(b.dataset.n){go(+b.dataset.n);return}
+ var a=b.dataset.a;if(!a)return;
+ if(a=='g'){P.g=b.dataset.v;save()}
+ else if(a=='start'){go(1);return}
+ else if(a=='cont'){go(last);return}
+ else if(a=='ends')view='ends';
+ else if(a=='sec')view='sec';
+ else if(a=='games'||a=='g2048'||a=='gtetris'||a=='gchess'||a=='gclick')view=a;
+ else if(a=='how')view='how';
+ else if(a=='menu')view='menu';
+ else if(a=='reset'){if(confirm(UI.conf[lang])){F={};X={};D=0;last=0;save()}}
+ render();window.scrollTo({top:0,behavior:'smooth'});
+});
+document.getElementById('box').addEventListener('input',function(e){if(e.target.id=='nm'){P.name=e.target.value;save()}});
+
+var TT=0;function ls(k,v){try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v)}catch(e){}}
+/* ===== MUSIC (synthesized, no files needed) ===== */
+var AC,MG,DL,NB,MON=true,MV=.5,want='mystery',curM='',dn=[],mt=0,ck=0,bt=0,cn=0;
+var MS={
+ mystery:{r:57,s:[0,2,3,5,7,8,10],dr:[0,7],t:[2.2,4.5],v:.07,clack:1},
+ tense:{r:55,s:[0,1,3,6,7,10],dr:[0,6],t:[.5,1.1],v:.07,clack:1,beat:1},
+ death:{r:45,s:[0,1,6],dr:[0,1,6],t:[3,6],v:.06},
+ win:{r:60,s:[0,2,4,7,9],dr:[0,7,12],t:[1,2],v:.07},
+ mixed:{r:52,s:[0,3,5,6,7,10],dr:[0,7],t:[1.8,3.5],v:.06},
+ secret:{r:62,s:[0,2,4,5,7,9,11],dr:[0,7],t:[.35,.6],v:.07},
+ game:{r:57,s:[0,3,5,7,10],dr:[0,7],t:[.4,.8],v:.06}
+};
+var TENSE=[4,8,11,15,23,26,27,28,38,39,42,47];
+function mf(n){return 440*Math.pow(2,(n-69)/12)}
+function moodFor(){if(view=='story'){var t=S[cur][1];return t=='d'?'death':t=='w'?'win':t=='m'?'mixed':t=='s'?'secret':TENSE.indexOf(cur)>-1?'tense':'mystery'}return view.charAt(0)=='g'?'game':'mystery'}
+function setMood(m){want=m;if(AC)applyMood()}
+function synthStart(){
+ if(AC)return;var C=window.AudioContext||window.webkitAudioContext;if(!C)return;
+ AC=new C();if(AC.resume)AC.resume();MG=AC.createGain();MG.gain.value=MON?MV:0;MG.connect(AC.destination);
+ DL=AC.createDelay(1);DL.delayTime.value=.46;var fb=AC.createGain();fb.gain.value=.38;DL.connect(fb);fb.connect(DL);DL.connect(MG);
+ NB=AC.createBuffer(1,AC.sampleRate*.08,AC.sampleRate);var d=NB.getChannelData(0);for(var i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/d.length,3);
+ applyMood();tick();
+}
+function applyMood(){
+ if(!AC||curM==want)return;curM=want;var m=MS[want],t=AC.currentTime;
+ dn.forEach(function(o){o.g.gain.setTargetAtTime(0,t,1.2);o.o.forEach(function(x){x.stop(t+7)})});dn=[];
+ m.dr.forEach(function(iv,i){
+  var g=AC.createGain(),f=AC.createBiquadFilter();f.type='lowpass';f.frequency.value=420+i*120;g.gain.value=0;g.gain.setTargetAtTime(.06,t,2);
+  var os=[0,1].map(function(k){var o=AC.createOscillator();o.type=k?'triangle':'sine';o.frequency.value=mf(m.r-12+iv)*(k?1.004:1);o.connect(g);o.start();return o});
+  g.connect(f);f.connect(MG);dn.push({g:g,o:os});
+ });
+}
+function note(m){var t=AC.currentTime,s=m.s[Math.random()*m.s.length|0],oc=[12,12,19,24][Math.random()*4|0],o=AC.createOscillator(),g=AC.createGain();
+ o.type='triangle';o.frequency.value=mf(m.r+oc+s);g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(m.v,t+.03);g.gain.exponentialRampToValueAtTime(.0005,t+2.4);
+ o.connect(g);g.connect(MG);g.connect(DL);o.start(t);o.stop(t+2.6)}
+function clack(t){var s=AC.createBufferSource(),f=AC.createBiquadFilter(),g=AC.createGain();s.buffer=NB;f.type='bandpass';f.frequency.value=650;g.gain.value=.5;s.connect(f);f.connect(g);g.connect(MG);s.start(t)}
+function thump(t){var o=AC.createOscillator(),g=AC.createGain();o.frequency.setValueAtTime(70,t);o.frequency.exponentialRampToValueAtTime(38,t+.2);g.gain.setValueAtTime(.45,t);g.gain.exponentialRampToValueAtTime(.001,t+.25);o.connect(g);g.connect(MG);o.start(t);o.stop(t+.3)}
+function tick(){
+ if(!AC)return;applyMood();var m=MS[curM]||MS.mystery,t=AC.currentTime;
+ if(t>mt){note(m);mt=t+m.t[0]+Math.random()*(m.t[1]-m.t[0])}
+ if(m.clack&&t>ck){clack(t);ck=t+(cn++%4<2?.2:.6)}
+ if(m.beat&&t>bt){thump(t);thump(t+.22);bt=t+1}
+ setTimeout(tick,60);
+}
+/* ===== BACKGROUND SONG: music.mp3 loops forever ===== */
+var BGM=new Audio('music.mp3'),bgOn=0;BGM.loop=true;BGM.preload='auto';
+BGM.addEventListener('timeupdate',function(){if(BGM.duration&&BGM.currentTime>BGM.duration-.15)BGM.currentTime=0});
+BGM.addEventListener('ended',function(){BGM.currentTime=0;BGM.play()});
+BGM.addEventListener('error',function(){if(!AC)synthStart()});
+function audioStart(){if(bgOn)return;bgOn=1;BGM.volume=MV;BGM.muted=!MON;var p=BGM.play();if(p&&p.catch)p.catch(function(){if(!AC)synthStart()})}
+function toggleMusic(){MON=!MON;audioStart();BGM.muted=!MON;if(MG)MG.gain.setTargetAtTime(MON?MV:0,AC.currentTime,.1);document.getElementById('b-mu').className=MON?'on':'';save()}
+function setVol(v){MV=v/100;BGM.volume=MV;if(MG)MG.gain.setTargetAtTime(MON?MV:0,AC.currentTime,.1);save()}
+document.addEventListener('pointerdown',audioStart,{once:true});document.addEventListener('keydown',audioStart,{once:true});
+/* ===== SNOW ===== */
+(function(){var s=document.createElement('div');s.id='snow';var h='';for(var i=0;i<40;i++)h+='<i style="left:'+(Math.random()*100|0)+'%;animation-duration:'+(8+Math.random()*10|0)+'s;animation-delay:-'+(Math.random()*18|0)+'s;opacity:'+(.25+Math.random()*.45).toFixed(2)+'"></i>';s.innerHTML=h;document.body.appendChild(s)})();
+/* ===== GAMES ===== */
+var GU={new:["New game","Nouvelle partie"],score:["Score","Score"],best:["Best","Record"],over:["Game over","Partie terminée"],lines:["Lines","Lignes"],next:["Next","Suivant"],
+ your:["Your move (white)","À vous de jouer (blancs)"],think:["Bot is thinking...","Le bot réfléchit..."],chk:["Check!","Échec !"],win:["Checkmate. You win!","Échec et mat. Vous gagnez !"],lose:["Checkmate. The bot wins.","Échec et mat. Le bot gagne."],draw:["Stalemate. Draw.","Pat. Match nul."],easy:["Easy","Facile"],hard:["Hard","Difficile"],
+ note:["Simplified rules: no castling or en passant. Pawns promote to queens.","Règles simplifiées : pas de roque ni de prise en passant. Les pions deviennent des dames."],
+ d0:["Slide and merge tiles to reach 2048.","Faites glisser et fusionnez les tuiles jusqu'à 2048."],d1:["Stack falling blocks and clear lines.","Empilez les blocs et effacez les lignes."],d2:["Play white against a bot.","Jouez les blancs contre un bot."],d3:["Shovel coal, hire a crew, and power the express.","Pelletez du charbon, engagez une équipe et lancez l'express."]};
+function gu(k){return GU[k][lang]}
+function bar2(){return '<div class="bar"><button class="mb" data-a="menu">☰ '+UI.menu[lang]+'</button> <button class="mb" data-a="games">'+UI.games[lang]+'</button></div>'}
+function mGames(){return '<div class="fade">'+bar()+'<h2>'+UI.games[lang]+'</h2><div class="opts"><button data-a="g2048">2048<br><small>'+gu('d0')+'</small></button><button data-a="gtetris">Tetris<br><small>'+gu('d1')+'</small></button><button data-a="gchess">'+(lang?'Échecs contre un bot':'Chess vs Bot')+'<br><small>'+gu('d2')+'</small></button><button data-a="gclick">'+(lang?'Pelleteur de charbon':'Coal Clicker')+'<br><small>'+gu('d3')+'</small></button></div></div>'}
+function mkpad(a){return '<div class="pad">'+a.map(function(x){return '<button class="mb" onclick="'+x[1]+'">'+x[0]+'</button>'}).join('')+'</div>'}
+var Q=(function(){
+ var B=[],sc=0,bs=+ls('mex_b2048')||0,dead=0;
+ function ix(d,i,j){return d==0?i*4+j:d==2?i*4+3-j:d==1?j*4+i:(3-j)*4+i}
+ function add(){var e=[];B.forEach(function(v,i){if(!v)e.push(i)});if(e.length)B[e[Math.random()*e.length|0]]=Math.random()<.9?2:4}
+ function stuck(){for(var i=0;i<16;i++){if(!B[i])return 0;if(i%4<3&&B[i]==B[i+1])return 0;if(i<12&&B[i]==B[i+4])return 0}return 1}
+ function draw(){var h='';B.forEach(function(v){var l=v?Math.log2(v):0;h+='<div class="t" style="background:'+(v?'hsl('+(215+l*14)+',50%,'+(20+l*2.6)+'%)':'rgba(255,255,255,.04)')+';font-size:'+(v>999?'1.1rem':'1.5rem')+'">'+(v||'')+'</div>'});
+  document.getElementById('q').innerHTML=h;document.getElementById('qs').textContent=gu('score')+': '+sc;document.getElementById('qb').textContent=gu('best')+': '+bs;document.getElementById('qm').textContent=dead?gu('over'):''}
+ function nw(){B=[];for(var i=0;i<16;i++)B.push(0);sc=0;dead=0;add();add();draw()}
+ function mv(d){if(dead)return;var m=0;for(var i=0;i<4;i++){var l=[];for(var j=0;j<4;j++)l.push(B[ix(d,i,j)]);var t=l.filter(Boolean),r=[];for(var k=0;k<t.length;k++){if(t[k]==t[k+1]){r.push(t[k]*2);sc+=t[k]*2;k++}else r.push(t[k])}while(r.length<4)r.push(0);for(j=0;j<4;j++){var p=ix(d,i,j);if(B[p]!=r[j]){m=1;B[p]=r[j]}}}
+  if(m){add();if(sc>bs){bs=sc;ls('mex_b2048',bs)}if(stuck())dead=1;draw()}}
+ function init(){nw();var q=document.getElementById('q'),sx=0,sy=0;q.addEventListener('touchstart',function(e){sx=e.touches[0].clientX;sy=e.touches[0].clientY},{passive:true});q.addEventListener('touchend',function(e){var dx=e.changedTouches[0].clientX-sx,dy=e.changedTouches[0].clientY-sy;if(Math.max(Math.abs(dx),Math.abs(dy))>24)mv(Math.abs(dx)>Math.abs(dy)?(dx<0?0:2):(dy<0?1:3))},{passive:true})}
+ return{mv:mv,nw:nw,init:init,B:function(){return B},set:function(a){B=a}}})();
+function m2048(){return '<div class="fade">'+bar2()+'<h2>2048</h2><div class="info"><span id="qs"></span><span id="qb"></span></div><div class="g4" id="q"></div><div class="cm" id="qm"></div>'+mkpad([['◀','Q.mv(0)'],['▲','Q.mv(1)'],['▼','Q.mv(3)'],['▶','Q.mv(2)'],[gu('new'),'Q.nw()']])+'</div>'}
+var T=(function(){
+ var W=10,H=20,C=24,g,p,nx,px,py,sc,ln,over,cx,cn2,
+ SH=[[[1,1,1,1]],[[1,1],[1,1]],[[0,1,0],[1,1,1]],[[1,0,0],[1,1,1]],[[0,0,1],[1,1,1]],[[0,1,1],[1,1,0]],[[1,1,0],[0,1,1]]],CL=['#4fc3f7','#ffd54f','#ba68c8','#5c7cfa','#ff9f43','#66bb6a','#ef5350'];
+ function rnd(){var i=Math.random()*7|0;return{m:SH[i],c:CL[i]}}
+ function rt(m){return m[0].map(function(_,i){return m.map(function(r){return r[i]}).reverse()})}
+ function ok(m,x,y){for(var r=0;r<m.length;r++)for(var c=0;c<m[r].length;c++)if(m[r][c]){var X=x+c,Y=y+r;if(X<0||X>=W||Y>=H||(Y>=0&&g[Y][X]))return false}return true}
+ function spawn(){p=nx||rnd();nx=rnd();px=(W-p.m[0].length)/2|0;py=0;if(!ok(p.m,px,py))over=1}
+ function lock(){p.m.forEach(function(r,j){r.forEach(function(v,i){if(v&&py+j>=0)g[py+j][px+i]=p.c})});var n=0;for(var y=H-1;y>=0;y--){if(g[y].every(Boolean)){g.splice(y,1);g.unshift(new Array(W).fill(0));n++;y++}}if(n){ln+=n;sc+=[0,100,300,500,800][n]}spawn()}
+ function cell(c2,x,y,col,s){c2.fillStyle=col;c2.fillRect(x*s+1,y*s+1,s-2,s-2)}
+ function draw(){cx.fillStyle='#050a14';cx.fillRect(0,0,W*C,H*C);
+  for(var y=0;y<H;y++)for(var x=0;x<W;x++)if(g[y][x])cell(cx,x,y,g[y][x],C);
+  if(!over){var gy=py;while(ok(p.m,px,gy+1))gy++;
+   p.m.forEach(function(r,j){r.forEach(function(v,i){if(v){cx.globalAlpha=.22;cx.fillStyle=p.c;cx.fillRect((px+i)*C+1,(gy+j)*C+1,C-2,C-2);cx.globalAlpha=1;cx.strokeStyle=p.c;cx.lineWidth=1.5;cx.strokeRect((px+i)*C+1.5,(gy+j)*C+1.5,C-3,C-3)}})});
+   p.m.forEach(function(r,j){r.forEach(function(v,i){if(v)cell(cx,px+i,py+j,p.c,C)})})}
+  cn2.fillStyle='#050a14';cn2.fillRect(0,0,96,96);nx.m.forEach(function(r,j){r.forEach(function(v,i){if(v)cell(cn2,i+.5,j+.5,nx.c,20)})});
+  if(over){cx.fillStyle='rgba(0,0,0,.65)';cx.fillRect(0,200,W*C,70);cx.fillStyle='#d4a84b';cx.font='24px serif';cx.textAlign='center';cx.fillText(gu('over'),W*C/2,242)}
+  document.getElementById('ts').textContent=gu('score')+': '+sc;document.getElementById('tl').textContent=gu('lines')+': '+ln}
+ function dn(){if(over)return;if(ok(p.m,px,py+1))py++;else lock();draw()}
+ function mvx(d){if(!over&&ok(p.m,px+d,py)){px+=d;draw()}}
+ function rot(){if(over)return;var m=rt(p.m);if(ok(m,px,py))p.m=m;else if(ok(m,px-1,py)){p.m=m;px--}else if(ok(m,px+1,py)){p.m=m;px++}draw()}
+ function hard(){if(over)return;while(ok(p.m,px,py+1))py++;lock();draw()}
+ function loop(){dn();if(!over)TT=setTimeout(loop,Math.max(90,600-Math.floor(ln/10)*50))}
+ function nw(){g=[];for(var y=0;y<H;y++)g.push(new Array(W).fill(0));sc=0;ln=0;over=0;nx=null;spawn();clearTimeout(TT);draw();TT=setTimeout(loop,600)}
+ function init(){cx=document.getElementById('tc').getContext('2d');cn2=document.getElementById('tn').getContext('2d');nw()}
+ return{init:init,nw:nw,dn:dn,mvx:mvx,rot:rot,hard:hard,ok:ok,rt:rt,ghost:function(){var y=py;while(ok(p.m,px,y+1))y++;return y}}})();
+function mTet(){return '<div class="fade">'+bar2()+'<h2>Tetris</h2><div class="tw"><canvas id="tc" width="240" height="480"></canvas><div class="ti"><div>'+gu('next')+'</div><canvas id="tn" width="96" height="96"></canvas><div id="ts"></div><div id="tl"></div></div></div>'+mkpad([['◀','T.mvx(-1)'],['↻','T.rot()'],['▶','T.mvx(1)'],['▼','T.dn()'],['⤓','T.hard()'],[gu('new'),'T.nw()']])+'</div>'}
+var CH=(function(){
+ var b,turn,sel,lg,lv=3,over,msg,GL={p:'♟',n:'♞',b:'♝',r:'♜',q:'♛',k:'♚'},VAL={p:100,n:320,b:330,r:500,q:900,k:20000};
+ function isW(c){return c==c.toUpperCase()}
+ function gen(bd,side){var ms=[],w=side=='w';
+  for(var i=0;i<64;i++){var c=bd[i];if(!c||isW(c)!=w)continue;var t=c.toLowerCase(),r=i>>3,f=i&7;
+   if(t=='p'){var d=w?-1:1,r1=r+d;if(r1<0||r1>7)continue;
+    if(!bd[r1*8+f]){ms.push([i,r1*8+f]);if(r==(w?6:1)&&!bd[(r+2*d)*8+f])ms.push([i,(r+2*d)*8+f])}
+    [-1,1].forEach(function(df){var ff=f+df,q;if(ff>=0&&ff<8){q=bd[r1*8+ff];if(q&&isW(q)!=w)ms.push([i,r1*8+ff])}});continue}
+   var ds=t=='n'?[[1,2],[2,1],[-1,2],[-2,1],[1,-2],[2,-1],[-1,-2],[-2,-1]]:(t=='k'||t=='q')?[[1,0],[-1,0],[0,1],[0,-1],[1,1],[1,-1],[-1,1],[-1,-1]]:t=='r'?[[1,0],[-1,0],[0,1],[0,-1]]:[[1,1],[1,-1],[-1,1],[-1,-1]],sl=t=='b'||t=='r'||t=='q';
+   ds.forEach(function(dd){var y=r+dd[0],x=f+dd[1];while(y>=0&&y<8&&x>=0&&x<8){var q=bd[y*8+x];if(q){if(isW(q)!=w)ms.push([i,y*8+x]);break}ms.push([i,y*8+x]);if(!sl)break;y+=dd[0];x+=dd[1]}})}
+  return ms}
+ function ap(bd,m){var n=bd.slice(),c=n[m[0]];n[m[0]]='';if(c=='P'&&m[1]<8)c='Q';if(c=='p'&&m[1]>55)c='q';n[m[1]]=c;return n}
+ function kp(bd,s){return bd.indexOf(s=='w'?'K':'k')}
+ function att(bd,sq,by){return gen(bd,by).some(function(m){return m[1]==sq})}
+ function legal(bd,s){var o=s=='w'?'b':'w';return gen(bd,s).filter(function(m){var n=ap(bd,m);return !att(n,kp(n,s),o)})}
+ function ev(bd){var s=0;for(var i=0;i<64;i++){var c=bd[i];if(!c)continue;var t=c.toLowerCase(),r=i>>3,f=i&7,v=VAL[t]+((3.5-Math.abs(f-3.5))+(3.5-Math.abs(r-3.5)))*(t=='p'||t=='n'?6:t=='k'?-4:2);if(t=='p')v+=(isW(c)?6-r:r-1)*6;s+=isW(c)?v:-v}return s}
+ function ns(bd,d,a,be,s){if(!d)return(s=='w'?1:-1)*ev(bd);var ms=gen(bd,s),o=s=='w'?'b':'w',best=-1e9;
+  ms.sort(function(x,y){return(bd[y[1]]?1:0)-(bd[x[1]]?1:0)});
+  for(var k=0;k<ms.length;k++){var m=ms[k],tg=bd[m[1]];if(tg&&tg.toLowerCase()=='k')return 1e5+d;var v=-ns(ap(bd,m),d-1,-be,-a,o);if(v>best)best=v;if(best>a)a=best;if(a>=be)break}
+  return ms.length?best:0}
+ function draw(){var h='';for(var i=0;i<64;i++){var c=b[i],cl=((i>>3)+(i&7))%2?'d':'l';if(sel==i)cl+=' sel';if(lg.some(function(m){return m[1]==i}))cl+=' mv';
+   h+='<button class="sq '+cl+'" onclick="CH.click('+i+')">'+(c?'<span class="'+(isW(c)?'wp':'bp')+'">'+GL[c.toLowerCase()]+'</span>':'')+'</button>'}
+  document.getElementById('cb').innerHTML=h;document.getElementById('cm').textContent=gu(msg)}
+ function after(){var s=turn,ms=legal(b,s),ck=att(b,kp(b,s),s=='w'?'b':'w');if(!ms.length){over=1;msg=ck?(s=='w'?'lose':'win'):'draw'}else msg=ck?'chk':(s=='w'?'your':'think');sel=null;lg=[];draw();if(!over&&turn=='b')setTimeout(bot,350)}
+ function bot(){var ms=legal(b,'b'),best=-1e9,bm=ms[0];ms.forEach(function(m){var v=-ns(ap(b,m),lv-1,-1e9,1e9,'w')+Math.random()*(lv==1?400:8);if(v>best){best=v;bm=m}});b=ap(b,bm);turn='w';after()}
+ function click(i){if(over||turn!='w')return;var c=b[i],mv=lg.filter(function(m){return m[1]==i})[0];
+  if(sel!=null&&mv){b=ap(b,mv);turn='b';after();return}
+  if(c&&isW(c)){sel=i;lg=legal(b,'w').filter(function(m){return m[0]==i})}else{sel=null;lg=[]}draw()}
+ function nw(){b='rnbqkbnr'.split('').concat('pppppppp'.split(''),new Array(32).fill(''),'PPPPPPPP'.split(''),'RNBQKBNR'.split(''));turn='w';over=0;sel=null;lg=[];msg='your';draw()}
+ function perft(bd,s,d){if(!d)return 1;var n=0;legal(bd,s).forEach(function(m){n+=perft(ap(bd,m),s=='w'?'b':'w',d-1)});return n}
+ return{nw:nw,click:click,lvl:function(n){lv=n;nw()},perft:function(d){return perft('rnbqkbnr'.split('').concat('pppppppp'.split(''),new Array(32).fill(''),'PPPPPPPP'.split(''),'RNBQKBNR'.split('')),'w',d)}}})();
+function mChess(){return '<div class="fade">'+bar2()+'<h2>'+(lang?'Échecs':'Chess')+'</h2><div class="cm" id="cm"></div><div class="cb" id="cb"></div>'+mkpad([[gu('easy'),'CH.lvl(1)'],[gu('hard'),'CH.lvl(3)'],[gu('new'),'CH.nw()']])+'<p class="dim" style="text-align:center;font-size:.85rem">'+gu('note')+'</p></div>'}
+document.addEventListener('keydown',function(e){var k=e.key;
+ if(view=='g2048'){var d={ArrowLeft:0,ArrowUp:1,ArrowRight:2,ArrowDown:3}[k];if(d!==undefined){e.preventDefault();Q.mv(d)}}
+ else if(view=='gtetris'){var a={ArrowLeft:function(){T.mvx(-1)},ArrowRight:function(){T.mvx(1)},ArrowUp:T.rot,ArrowDown:T.dn,' ':T.hard}[k];if(a){e.preventDefault();a()}}});
+
+var VISTA='<div class="vista"><svg viewBox="0 0 640 150" aria-hidden="true"><defs><linearGradient id="bm" x1="0" x2="1"><stop offset="0" stop-color="#ffe9a8" stop-opacity=".55"/><stop offset="1" stop-color="#ffe9a8" stop-opacity="0"/></linearGradient><pattern id="sl" width="24" height="8" patternUnits="userSpaceOnUse"><rect width="10" height="8" fill="#1b2840"/></pattern><g id="tr1"><path d="M10 100l10-30 10 30zM44 100l12-40 12 40zM90 100l8-24 8 24zM130 100l11-34 11 34zM176 100l9-28 9 28zM230 100l12-38 12 38zM280 100l8-26 8 26z"/></g><path id="hl" d="M0 100Q80 55 160 92T320 88T480 82T640 100V125H0z"/><g id="w6"><circle r="6" fill="#0a1224" stroke="#8d97a3"/><path d="M-6 0H6M0-6V6" stroke="#8d97a3"/></g><g id="w11"><circle r="11" fill="#0a1224" stroke="#d4a84b" stroke-width="1.5"/><path d="M-11 0H11M0-11V11M-8-8L8 8M8-8L-8 8" stroke="#d4a84b" stroke-width="1"/></g></defs><circle cx="560" cy="30" r="30" fill="#e8e2d4" opacity=".08"/><circle cx="560" cy="30" r="13" fill="#e8e2d4" opacity=".85"/><g class="sc s1" fill="#0c1a34"><use href="#hl"/><use href="#hl" x="640"/></g><g class="sc s2" fill="#07101f"><use href="#tr1"/><use href="#tr1" x="320"/><use href="#tr1" x="640"/><use href="#tr1" x="960"/></g><rect y="98" width="640" height="52" fill="#050b16"/><rect y="127" width="640" height="2" fill="#4a5b78"/><rect x="-30" y="131" width="700" height="8" fill="url(#sl)" class="slp"/><g class="trn"><rect x="50" y="84" width="108" height="34" rx="4" fill="#101c36" stroke="#d4a84b" stroke-width="1.2"/><rect class="wl" x="58" y="92" width="12" height="12" fill="#e0a43a" style="animation-delay:-0.0s"/><rect class="wl" x="78" y="92" width="12" height="12" fill="#e0a43a" style="animation-delay:-1.4s"/><rect class="wl" x="98" y="92" width="12" height="12" fill="#e0a43a" style="animation-delay:-2.8s"/><rect class="wl" x="118" y="92" width="12" height="12" fill="#e0a43a" style="animation-delay:-0.7s"/><rect class="wl" x="138" y="92" width="12" height="12" fill="#e0a43a" style="animation-delay:-2.1s"/><g transform="translate(68 121)"><g class="wh"><use href="#w6"/></g></g><g transform="translate(140 121)"><g class="wh"><use href="#w6"/></g></g><rect x="170" y="84" width="108" height="34" rx="4" fill="#101c36" stroke="#d4a84b" stroke-width="1.2"/><rect class="wl" x="178" y="92" width="12" height="12" fill="#e0a43a" style="animation-delay:-0.0s"/><rect class="wl" x="198" y="92" width="12" height="12" fill="#e0a43a" style="animation-delay:-1.4s"/><rect class="wl" x="218" y="92" width="12" height="12" fill="#e0a43a" style="animation-delay:-2.8s"/><rect class="wl" x="238" y="92" width="12" height="12" fill="#e0a43a" style="animation-delay:-0.7s"/><rect class="wl" x="258" y="92" width="12" height="12" fill="#e0a43a" style="animation-delay:-2.1s"/><g transform="translate(188 121)"><g class="wh"><use href="#w6"/></g></g><g transform="translate(260 121)"><g class="wh"><use href="#w6"/></g></g><path d="M158 108h12M278 108h14" stroke="#4a5b78" stroke-width="3"/><rect x="292" y="92" width="36" height="26" fill="#0b1224" stroke="#d4a84b" stroke-width="1.2"/><path d="M296 92q6-8 12-2t14-3 6 5z" fill="#05080f"/><rect x="330" y="78" width="34" height="40" fill="#101c36" stroke="#d4a84b" stroke-width="1.2"/><rect x="326" y="73" width="42" height="6" fill="#0a1224" stroke="#d4a84b"/><rect class="wl" x="338" y="86" width="14" height="12" fill="#e0a43a"/><rect x="364" y="92" width="82" height="26" rx="10" fill="#101c36" stroke="#d4a84b" stroke-width="1.2"/><circle cx="392" cy="90" r="7" fill="#101c36" stroke="#d4a84b"/><rect x="420" y="76" width="10" height="18" fill="#0a1224" stroke="#d4a84b"/><path d="M416 76h18l-4-6h-10z" fill="#0a1224" stroke="#d4a84b"/><polygon points="446,112 468,128 446,128" fill="#0a1224" stroke="#d4a84b"/><polygon class="beam" points="446,98 610,60 610,134" fill="url(#bm)"/><circle cx="444" cy="100" r="4" fill="#ffe9a8"/><rect class="rod" x="346" y="118" width="74" height="3" fill="#8d97a3"/><g transform="translate(346 120)"><g class="wh"><use href="#w11"/></g></g><g transform="translate(384 120)"><g class="wh"><use href="#w11"/></g></g><g transform="translate(420 120)"><g class="wh"><use href="#w11"/></g></g><g transform="translate(440 122)"><g class="wh"><use href="#w6"/></g></g><g class="smoke"><circle cx="425" cy="64" r="5" style="animation-delay:-0.0s"/><circle cx="425" cy="64" r="5" style="animation-delay:-0.8s"/><circle cx="425" cy="64" r="5" style="animation-delay:-1.6s"/><circle cx="425" cy="64" r="5" style="animation-delay:-2.4s"/></g></g></svg></div>';
+var CK=(function(){
+ var s0=function(){return{c:0,tot:0,u:[0,0,0,0,0]}},s=s0(),gt=0,n=0,
+ UP=[[["Better shovel","Meilleure pelle"],15,'c',1],[["Stoker","Chauffeur"],60,'a',1],[["Fireman crew","Équipe de chauffe"],350,'a',6],[["Bigger boiler","Chaudière plus grande"],3000,'a',40],[["Express engine","Locomotive express"],20000,'a',250]];
+ function cost(i){return Math.floor(UP[i][1]*Math.pow(1.15,s.u[i]))}
+ function pc(){return 1+s.u[0]*UP[0][3]}
+ function ps(){var a=0;for(var i=1;i<5;i++)a+=s.u[i]*UP[i][3];return a}
+ function fmt(x){x=Math.floor(x);if(x<1e3)return''+x;var u=['K','M','B','T'],i=-1;while(x>=1e3&&i<3){x/=1e3;i++}return x.toFixed(x<10?2:x<100?1:0)+u[i]}
+ function sv(){ls('mex_ck',JSON.stringify(s))}
+ function ui(){
+  document.getElementById('ckc').textContent=(lang?'Charbon : ':'Coal: ')+fmt(s.c);
+  document.getElementById('cks').textContent=fmt(ps())+'/s  +'+fmt(pc())+(lang?'/clic':'/click');
+  document.getElementById('ckm').textContent=(lang?'Total pelleté : ':'Total shoveled: ')+fmt(s.tot);
+  for(var i=0;i<5;i++){document.getElementById('kn'+i).textContent='x'+s.u[i];document.getElementById('kc'+i).textContent=fmt(cost(i));document.getElementById('ku'+i).className=s.c<cost(i)?'up no':'up'}}
+ function pop(t){var a=document.getElementById('cka'),d=document.createElement('span');d.className='pop';d.textContent=t;d.style.left=(38+Math.random()*24)+'%';a.appendChild(d);setTimeout(function(){d.remove()},900)}
+ function click(){var g=pc();s.c+=g;s.tot+=g;pop('+'+fmt(g));ui()}
+ function buy(i){var c=cost(i);if(s.c>=c){s.c-=c;s.u[i]++;ui();sv()}}
+ function gold(){var a=document.getElementById('cka'),d=document.createElement('button');d.className='gold';d.textContent='✦';d.style.left=(8+Math.random()*80)+'%';d.style.top=(5+Math.random()*60)+'%';
+  d.onclick=function(){var b=Math.max(100,ps()*30+pc()*50);s.c+=b;s.tot+=b;pop('+'+fmt(b));d.remove();ui()};a.appendChild(d);setTimeout(function(){d.remove()},7000)}
+ function loop(){s.c+=ps()/10;s.tot+=ps()/10;gt-=.1;if(gt<=0){gt=25+Math.random()*25;gold()}if(++n%50==0)sv();ui();TT=setTimeout(loop,100)}
+ function init(){try{var d=JSON.parse(ls('mex_ck')||'null');if(d&&d.u&&d.u.length==5)s=d}catch(e){}
+  var h='';UP.forEach(function(u,i){h+='<button class="up" id="ku'+i+'" onclick="CK.buy('+i+')"><span>'+u[0][lang]+' <b id="kn'+i+'"></b><br><small>'+(u[2]=='c'?'+'+u[3]+(lang?' par clic':' per click'):'+'+u[3]+'/s')+'</small></span><span id="kc'+i+'"></span></button>'});
+  document.getElementById('cku').innerHTML=h;gt=15+Math.random()*15;n=0;ui();TT=setTimeout(loop,100)}
+ function reset(){if(confirm(UI.conf[lang])){s=s0();sv();ui()}}
+ return{init:init,click:click,buy:buy,reset:reset,st:function(){return s}}})();
+function mClick(){return '<div class="fade">'+bar2()+'<h2>'+(lang?'Pelleteur de charbon':'Coal Clicker')+'</h2><div class="info"><span id="ckc"></span><span id="cks"></span></div><div class="cka" id="cka"><button class="ckb" onclick="CK.click()" aria-label="Shovel"><svg viewBox="0 0 120 80" aria-hidden="true"><use href="#train"/></svg></button></div><div class="cm" id="ckm"></div><div class="opts" id="cku"></div>'+mkpad([[lang?'Réinitialiser':'Reset','CK.reset()']])+'</div>'}
+load();setLang(lang?'fr':'en');
+document.getElementById('b-mu').className=MON?'on':'';document.getElementById('vol').value=MV*100;
+</script>
+</body>
+</html>
